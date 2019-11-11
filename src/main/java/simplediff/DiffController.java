@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 public class DiffController {
 
     @GetMapping("/diff")
-    public String getDiff() {
-        prepareCommands();
+    public String getDiff(@RequestParam String branch) {
+        prepareCommands(branch);
 
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.command("bash", "-c", "./gumtree/bin/gumtree webdiff targetBranch sourceBranch");
@@ -40,9 +40,9 @@ public class DiffController {
         return "Couldn't perform operation";
     }
 
-    private void prepareCommands() {
+    private void prepareCommands(String sourceBranch) {
         ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("bash", "-c", "git clone -b master https://github.com/itsAlexNguyen/samples.git targetBranch && git clone -b testdiff https://github.com/itsAlexNguyen/samples.git sourceBranch");
+        processBuilder.command("bash", "-c", "git clone -b master https://github.com/itsAlexNguyen/samples.git targetBranch && git clone -b " + sourceBranch + " https://github.com/itsAlexNguyen/samples.git sourceBranch");
 
         try {
             Process process = processBuilder.start();
