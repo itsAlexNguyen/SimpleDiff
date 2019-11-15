@@ -14,7 +14,7 @@ public class DiffController {
     @GetMapping("/diff")
     public String getDiff(@RequestParam String branch) {
         String nameOS = System.getProperty("os.name");
-        if (nameOS.equals("Windows 10")){
+        if (nameOS.contains("Windows")){
             bashPath = "C:\\Program Files\\Git\\git-bash.exe";
         }
         prepareCommands(branch);
