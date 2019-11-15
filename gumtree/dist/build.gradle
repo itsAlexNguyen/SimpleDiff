@@ -1,0 +1,28 @@
+apply plugin: 'application'
+
+mainClassName = 'com.github.gumtreediff.client.Run'
+applicationName = 'gumtree'
+archivesBaseName = 'gumtree'
+
+uploadArchives.enabled = false
+distTar.enabled = false
+
+description = 'GumTree distribution.'
+
+dependencies {
+	implementation project(':client')
+	implementation project(':client.diff')
+	implementation project(':gen.jdt')
+}
+
+installDist {
+	destinationDir = file("../run")
+}
+
+build.finalizedBy(installDist)
+
+run {
+	if ( project.hasProperty("params") ) {
+		args Eval.me(params)
+	}
+}

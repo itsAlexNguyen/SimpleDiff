@@ -19,10 +19,12 @@ public class DiffController {
         }
         prepareCommands(branch);
         ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command(bashPath, "-c", "./gumtree/bin/gumtree webdiff targetBranch sourceBranch > index.html");
+        processBuilder.command(bashPath, "-c", "./gumtree/run/bin/gumtree webdiff targetBranch sourceBranch > index.html");
 
         try {
             Process process = processBuilder.start();
+            int exitVal = process.waitFor();
+
             StringBuilder output = new StringBuilder();
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(new FileInputStream("index.html")));
@@ -31,10 +33,10 @@ public class DiffController {
                 output.append(line + "\n");
             }
 
-            int exitVal = process.waitFor();
+
 
             if (exitVal == 0) {
-                finishedCommands();
+                //finishedCommands();
                 return output.toString();
             }
 
