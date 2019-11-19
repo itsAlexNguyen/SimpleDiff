@@ -3,6 +3,8 @@ package simplediff;
 import java.io.IOException;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +18,7 @@ public class DiffController {
    *
    * @param branch - target branch of repository
    */
-  @GetMapping("/diff")
+  @RequestMapping(value = "/diff", method = RequestMethod.GET, produces = { "application/xml", "text/xml" })
   public String getDiff(@RequestParam String branch) {
     prepareCommands(branch);
     WebDiff.initGenerators();

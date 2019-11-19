@@ -30,6 +30,7 @@ import org.rendersnake.DocType;
 import org.rendersnake.HtmlCanvas;
 import org.rendersnake.Renderable;
 import simplediff.gumtree.core.actions.Diff;
+import simplediff.gumtree.core.actions.EditScript;
 import simplediff.gumtree.core.actions.EditScriptGenerator;
 import simplediff.gumtree.core.matchers.MappingStore;
 import simplediff.gumtree.core.matchers.Matcher;
@@ -55,7 +56,8 @@ public class DiffView implements Renderable {
     this.fDst = fDst;
     MappingStore mappings = matcher.match(src.getRoot(), dst.getRoot());
     // System.out.println(mappings.asSet());
-    Diff diff = new Diff(src, dst, mappings, scriptGenerator.computeActions(mappings));
+    EditScript editScript = scriptGenerator.computeActions(mappings);
+    Diff diff = new Diff(src, dst, mappings, editScript);
     diffs = new HtmlDiffs(fSrc, fDst, diff);
     diffs.produce();
   }

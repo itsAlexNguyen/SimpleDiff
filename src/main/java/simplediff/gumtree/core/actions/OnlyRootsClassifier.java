@@ -38,22 +38,6 @@ public class OnlyRootsClassifier extends AbstractITreeClassifier {
 
   @Override
   public void classify() {
-    for (Action a : diff.editScript)
-      if (a.getType() != null && a.getType().name.equals("PackageDeclaration"))
-        System.out.println(a);
-    //            final String name = a.getType().name;
-    //            switch (name) {
-    //                case "PackageDeclaration":
-    //                    System.out.print("Package " + a);
-    //                    break;
-    //                case "ImportDeclaration":
-    //                    System.out.print("Import " + a);
-    //                    break;
-    //                default:
-    //                    System.out.print("Other " + a);
-    //            }
-    //        }
-
     Set<ITree> insertedDsts = new HashSet<>();
     for (Action a : diff.editScript) if (a instanceof Insert) insertedDsts.add(a.getNode());
 

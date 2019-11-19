@@ -31,6 +31,7 @@ import org.rendersnake.Renderable;
 import simplediff.gumtree.client.Option;
 import simplediff.gumtree.client.Register;
 import simplediff.gumtree.core.actions.ChawatheScriptGenerator;
+import simplediff.gumtree.core.actions.XMLChawatheScriptGenerator;
 import simplediff.gumtree.core.gen.Generators;
 import simplediff.gumtree.core.gen.Registry;
 import simplediff.gumtree.core.gen.TreeGenerator;
@@ -112,7 +113,16 @@ public class WebDiff extends AbstractDiffClient<WebDiff.Options> {
               this.getTreeContext(pair.second.getAbsolutePath()),
               getMatcher(),
               new ChawatheScriptGenerator());
-      return render(view);
+
+      XMLDiff xmlDiff = new XMLDiff(
+              pair.first,
+              pair.second,
+              this.getTreeContext(pair.first.getAbsolutePath()),
+              this.getTreeContext(pair.second.getAbsolutePath()),
+              getMatcher(),
+              new XMLChawatheScriptGenerator());
+      System.out.println(xmlDiff.publish());
+      return(xmlDiff.publish());
     } catch (IOException e) {
       e.printStackTrace();
     }

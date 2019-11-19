@@ -81,10 +81,6 @@ public final class HtmlDiffs {
     ITreeClassifier c = diff.createRootNodesClassifier();
     TObjectIntMap<ITree> mappingIds = new TObjectIntHashMap<>();
 
-    //        System.out.println("moved");
-    //        System.out.println(c.getDeletedSrcs());
-    //        System.out.println("moved");
-
     int uId = 1;
     int mId = 1;
 

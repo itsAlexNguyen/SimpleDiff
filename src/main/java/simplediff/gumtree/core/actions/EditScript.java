@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import simplediff.gumtree.core.actions.model.Action;
+import simplediff.gumtree.core.actions.model.Change;
 
 public class EditScript implements Iterable<Action> {
   private List<Action> actions;
