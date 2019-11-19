@@ -109,7 +109,7 @@ public class XMLDiff {
 
     StringBuilder output = new StringBuilder();
     output.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n");
-    output.append("<?xml-stylesheet type=\"text/xsl\" href=\"\\resources\\diff.xsl\" ?>\n");
+    output.append("<?xml-stylesheet type=\"text/xsl\" href=\"dist\\diff.xsl\" ?>\n");
     output.append("<document>\n");
     output.append("\t<file>\n");
     output.append("\t\t<name>").append(this.srcFile).append("</name>\n");
