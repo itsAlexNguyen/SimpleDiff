@@ -105,7 +105,7 @@ public class WebDiff extends AbstractDiffClient<WebDiff.Options> {
     comparator.compare();
     Pair<File, File> pair = comparator.getModifiedFiles().get(0);
     try {
-      Renderable view =
+      DiffView view =
           new DiffView(
               pair.first,
               pair.second,
@@ -120,6 +120,7 @@ public class WebDiff extends AbstractDiffClient<WebDiff.Options> {
               this.getTreeContext(pair.first.getAbsolutePath()),
               this.getTreeContext(pair.second.getAbsolutePath()),
               getMatcher(),
+              new ChawatheScriptGenerator(),
               new XMLChawatheScriptGenerator());
       return(xmlDiff.publish());
     } catch (IOException e) {

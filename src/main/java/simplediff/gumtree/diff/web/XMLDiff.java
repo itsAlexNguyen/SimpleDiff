@@ -7,6 +7,9 @@ import java.io.RandomAccessFile;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import simplediff.gumtree.core.actions.Diff;
+import simplediff.gumtree.core.actions.EditScript;
+import simplediff.gumtree.core.actions.EditScriptGenerator;
 import simplediff.gumtree.core.actions.XMLChawatheScriptGenerator;
 import simplediff.gumtree.core.actions.model.Change;
 import simplediff.gumtree.core.actions.model.ImportChange;
@@ -21,52 +24,60 @@ public class XMLDiff {
   private final List<Change> changeList;
   private final File srcFile;
   private final File dstFile;
+  private final String rawHtmlDiff;
 
   public XMLDiff(
-      File srcFile,
-      File dstFile,
-      TreeContext src,
-      TreeContext dst,
-      Matcher matcher,
-      XMLChawatheScriptGenerator scriptGenerator)
+      final File srcFile,
+      final File dstFile,
+      final TreeContext src,
+      final TreeContext dst,
+      final Matcher matcher,
+      final EditScriptGenerator editScriptGenerator,
+      final XMLChawatheScriptGenerator xmlScriptGenerator)
       throws IOException {
 
     this.srcFile = srcFile;
     this.dstFile = dstFile;
 
-    MappingStore mappings = matcher.match(src.getRoot(), dst.getRoot());
+    final MappingStore mappings = matcher.match(src.getRoot(), dst.getRoot());
+    final EditScript editScript = editScriptGenerator.computeActions(mappings);
+    final Diff diff = new Diff(src, dst, mappings, editScript);
+    final HtmlDiffs htmlDiff = new HtmlDiffs(srcFile, dstFile, diff);
+    htmlDiff.produce();
 
-    List<Change> changeList = scriptGenerator.generateChanges(mappings);
+    rawHtmlDiff = getRawHTMLDiff(htmlDiff);
+
+
+    final List<Change> changeList = xmlScriptGenerator.generateChanges(mappings);
     Collections.sort(changeList);
     this.changeList = changeList;
   }
 
   public String publish() throws IOException {
-    RandomAccessFile srcFile = new RandomAccessFile(this.srcFile, "r");
-    RandomAccessFile dstFile = new RandomAccessFile(this.dstFile, "r");
+    final RandomAccessFile srcFile = new RandomAccessFile(this.srcFile, "r");
+    final RandomAccessFile dstFile = new RandomAccessFile(this.dstFile, "r");
 
-    StringBuilder packages = new StringBuilder();
-    List<String> importChanges = new LinkedList<String>();
-    List<String> methodChanges = new LinkedList<String>();
-    List<String> modifierChanges = new LinkedList<String>();
+    final StringBuilder packages = new StringBuilder();
+    final List<String> importChanges = new LinkedList<String>();
+    final List<String> methodChanges = new LinkedList<String>();
+    final List<String> modifierChanges = new LinkedList<String>();
 
     final String openingChangeTag = "\t\t\t<change>\n";
     final String closingChangeTag = "\t\t\t</change>\n";
     final String openingTextTag = "\t\t\t\t<change-text>";
-    final String closingTextTag = "\t\t\t\t</change-text>\n";
+    final String closingTextTag = "\n\t\t\t\t</change-text>\n";
     final String srcOpeningSourceTag = "<change-src>\n";
     final String srcClosingSourceTag = "\n</change-src>\n";
     final String dstOpeningSourceTag = "<change-dst>\n";
     final String dstClosingSourceTag = "\n</change-dst>\n";
 
-    for (int i = 0; i < changeList.size(); i++) {
-      Change current = changeList.get(i);
+    for (final Change current : changeList) {
       if (current instanceof PackageChange) {
         packages.append(openingChangeTag).append(openingTextTag);
         packages.append(current.getChangeText());
         packages.append(closingTextTag).append(closingChangeTag);
       } else if (current instanceof ImportChange) {
-        String imports =
+        final String imports =
             openingChangeTag
                 + openingTextTag
                 + current.getChangeText()
@@ -74,14 +85,14 @@ public class XMLDiff {
                 + closingChangeTag;
         importChanges.add(imports);
       } else if (current instanceof SourceChange) {
-        SourceChange sourceChange = ((SourceChange) current);
+        final SourceChange sourceChange = ((SourceChange) current);
 
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
         text.append(openingChangeTag).append(openingTextTag).append(sourceChange.getChangeText());
         text.append(closingTextTag);
 
-        int srcPos = sourceChange.getSrcStart();
-        int srcLength = sourceChange.getSrcLength();
+        final int srcPos = sourceChange.getSrcStart();
+        final int srcLength = sourceChange.getSrcLength();
         if (srcPos != -1) {
           String sourceCode = read(srcFile, srcPos, srcLength);
           text.append(srcOpeningSourceTag);
@@ -89,8 +100,8 @@ public class XMLDiff {
           text.append(srcClosingSourceTag);
         }
 
-        int dstPos = sourceChange.getDstStart();
-        int dstLength = sourceChange.getDstLength();
+        final int dstPos = sourceChange.getDstStart();
+        final int dstLength = sourceChange.getDstLength();
         if (dstPos != -1) {
           String sourceCode = read(dstFile, dstPos, dstLength);
           text.append(dstOpeningSourceTag);
@@ -107,7 +118,7 @@ public class XMLDiff {
       }
     }
 
-    StringBuilder output = new StringBuilder();
+    final StringBuilder output = new StringBuilder();
     output.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n");
     output.append("<?xml-stylesheet type=\"text/xsl\" href=\"dist\\diff.xsl\" ?>\n");
     output.append("<document>\n");
@@ -140,6 +151,13 @@ public class XMLDiff {
     }
     output.append("\t\t</change-method>\n");
 
+    /* Add raw changes */
+    output.append("\t\t<change-raw>\n");
+    output.append("\t\t\t<change>\n").append("\t\t\t\t<change-text>");
+    output.append(rawHtmlDiff);
+    output.append("\n\t\t\t\t</change-text>\n").append("\t\t\t</change>\n");
+    output.append("\t\t</change-raw>\n");
+
     output.append("\t</file>\n");
     output.append("</document>\n");
 
@@ -148,10 +166,10 @@ public class XMLDiff {
     return output.toString();
   }
 
-  private String read(RandomAccessFile file, int pos, int length) throws IOException {
+  private String read(final RandomAccessFile file, final int pos, final int length) throws IOException {
     int count = 0;
     file.seek(pos);
-    StringBuilder input = new StringBuilder();
+    final StringBuilder input = new StringBuilder();
     try {
       while (count < length && pos + count < file.length()) {
         input.append((char) file.read());
@@ -161,6 +179,20 @@ public class XMLDiff {
       System.out.println(e.getMessage());
     }
     return input.toString();
+  }
+
+  private String getRawHTMLDiff(final HtmlDiffs htmlDiff) {
+    final String srcDiff = htmlDiff.getSrcDiff();
+    final String dstDiff = htmlDiff.getDstDiff();
+
+    return "<row-node>" +
+        "<half-col>" +
+        srcDiff.replace("span", "span-node") +
+        "</half-col>" +
+        "<half-col>" +
+        dstDiff.replace("span", "span-node") +
+        "</half-col>" +
+        "</row-node>";
   }
 
   @Override

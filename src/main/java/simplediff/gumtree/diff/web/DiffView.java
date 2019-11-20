@@ -38,7 +38,7 @@ import simplediff.gumtree.core.tree.TreeContext;
 
 public class DiffView implements Renderable {
 
-  private HtmlDiffs diffs;
+  public HtmlDiffs diffs;
 
   private File fSrc;
 
