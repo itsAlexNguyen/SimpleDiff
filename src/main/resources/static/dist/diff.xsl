@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?> 
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"> 
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:template match="/">
   <html>
   <body>
@@ -211,11 +211,21 @@
                     <div>
                       <xsl:value-of select="change-text"/>
                     </div>
-                    <div style="background-color: white; border: solid">
-                      <xsl:value-of select="change-src"/>
+                    <div>
+                      <pre>
+                        <xsl:attribute name="class">
+                          <xsl:text>prettyprint</xsl:text>
+                        </xsl:attribute>
+                        <xsl:value-of select="change-src"/>
+                      </pre>
                     </div>
-                    <div style="background-color: white; border: solid">
-                      <xsl:value-of select="change-dst"/>
+                    <div>
+                      <pre>
+                        <xsl:attribute name="class">
+                          <xsl:text>prettyprint</xsl:text>
+                        </xsl:attribute>
+                        <xsl:value-of select="change-dst"/>
+                      </pre>
                     </div>
                   </xsl:for-each>
                 </div>
@@ -268,11 +278,21 @@
                     <div>
                       <xsl:value-of select="change-text"/>
                     </div>
-                    <div style="background-color: white; border: solid">
-                      <xsl:value-of select="change-src"/>
+                    <div>
+                      <pre>
+                        <xsl:attribute name="class">
+                          <xsl:text>prettyprint</xsl:text>
+                        </xsl:attribute>
+                        <xsl:value-of select="change-src"/>
+                      </pre>
                     </div>
-                    <div style="background-color: white; border: solid">
-                      <xsl:value-of select="change-dst"/>
+                    <div>
+                      <pre>
+                        <xsl:attribute name="class">
+                          <xsl:text>prettyprint</xsl:text>
+                        </xsl:attribute>
+                        <xsl:value-of select="change-dst"/>
+                      </pre>
                     </div>
                   </xsl:for-each>
                 </div>
@@ -324,13 +344,23 @@
                   </xsl:attribute>
                   <xsl:for-each select="change-raw/change">
                     <div>
-                    <xsl:value-of select="change-text" disable-output-escaping="yes"/>
+                    <xsl:value-of select="change-text"/>
                   </div>
-                    <div style="background-color: white; border: solid">
-                      <xsl:value-of select="change-src"/>
+                    <div>
+                      <pre>
+                        <xsl:attribute name="class">
+                          <xsl:text>prettyprint</xsl:text>
+                        </xsl:attribute>
+                        <xsl:value-of select="change-src"/>
+                      </pre>
                     </div>
-                    <div style="background-color: white; border: solid">
-                      <xsl:value-of select="change-dst"/>
+                    <div>
+                      <pre>
+                        <xsl:attribute name="class">
+                          <xsl:text>prettyprint</xsl:text>
+                        </xsl:attribute>
+                        <xsl:value-of select="change-dst"/>
+                      </pre>
                     </div>
                   </xsl:for-each>
                 </div>
@@ -353,7 +383,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=java&amp;skin=desert"></script>
   </html>
   </xsl:template>
   </xsl:stylesheet>

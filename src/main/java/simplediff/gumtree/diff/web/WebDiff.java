@@ -121,7 +121,6 @@ public class WebDiff extends AbstractDiffClient<WebDiff.Options> {
               this.getTreeContext(pair.second.getAbsolutePath()),
               getMatcher(),
               new XMLChawatheScriptGenerator());
-      System.out.println(xmlDiff.publish());
       return(xmlDiff.publish());
     } catch (IOException e) {
       e.printStackTrace();
