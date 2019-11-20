@@ -35,7 +35,6 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest-library:2.1'
 
     implementation 'com.sparkjava:spark-core:2.8.0'
-//    implementation 'org.slf4j:slf4j-simple:1.7.21'
     implementation 'net.sf.trove4j:trove4j:3.0.3'
 
 
@@ -44,7 +43,6 @@ dependencies {
         exclude group: 'javax.servlet', module: 'servlet-api'
     }
     implementation 'com.github.mpkorstanje:simmetrics-core:3.2.3'
-//    implementation 'net.sf.trove4j:trove4j:3.0.3'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'org.jgrapht:jgrapht-core:1.0.1'
     implementation 'org.eclipse.jdt:org.eclipse.jdt.core:3.16.0'

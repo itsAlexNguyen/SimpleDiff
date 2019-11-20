@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.LinkedList;
+import java.util.List;
 import org.atteo.classindex.ClassIndex;
 import org.rendersnake.HtmlCanvas;
 import org.rendersnake.Renderable;
@@ -36,6 +38,7 @@ import simplediff.gumtree.core.gen.Generators;
 import simplediff.gumtree.core.gen.Registry;
 import simplediff.gumtree.core.gen.TreeGenerator;
 import simplediff.gumtree.core.io.DirectoryComparator;
+import simplediff.gumtree.core.tree.TreeContext;
 import simplediff.gumtree.core.utils.Pair;
 import simplediff.gumtree.diff.AbstractDiffClient;
 
@@ -85,7 +88,6 @@ public class WebDiff extends AbstractDiffClient<WebDiff.Options> {
     comparator.compare();
     Pair<File, File> pair = comparator.getModifiedFiles().get(0);
     try {
-      //            System.out.println(render(new DirectoryComparatorView(comparator)));
       Renderable view =
           new DiffView(
               pair.first,
@@ -101,28 +103,22 @@ public class WebDiff extends AbstractDiffClient<WebDiff.Options> {
   }
 
   public String generate() {
-    DirectoryComparator comparator = new DirectoryComparator(opts.src, opts.dst);
+    final DirectoryComparator comparator = new DirectoryComparator(opts.src, opts.dst);
     comparator.compare();
-    Pair<File, File> pair = comparator.getModifiedFiles().get(0);
-    try {
-      DiffView view =
-          new DiffView(
-              pair.first,
-              pair.second,
-              this.getTreeContext(pair.first.getAbsolutePath()),
-              this.getTreeContext(pair.second.getAbsolutePath()),
-              getMatcher(),
-              new ChawatheScriptGenerator());
+    final List<Pair<TreeContext, TreeContext>> contexts = new LinkedList<>();
 
-      XMLDiff xmlDiff = new XMLDiff(
-              pair.first,
-              pair.second,
-              this.getTreeContext(pair.first.getAbsolutePath()),
-              this.getTreeContext(pair.second.getAbsolutePath()),
+    for (Pair<File,File> pair: comparator.getModifiedFiles()) {
+      contexts.add(new Pair<>(this.getTreeContext(pair.first.getAbsolutePath()), this.getTreeContext(pair.second.getAbsolutePath())));
+    }
+
+    try {
+      return XMLDiff.publish(
+              comparator.getModifiedFiles(),
+              contexts,
+              comparator.getModifiedFiles().size(),
               getMatcher(),
               new ChawatheScriptGenerator(),
               new XMLChawatheScriptGenerator());
-      return(xmlDiff.publish());
     } catch (IOException e) {
       e.printStackTrace();
     }
