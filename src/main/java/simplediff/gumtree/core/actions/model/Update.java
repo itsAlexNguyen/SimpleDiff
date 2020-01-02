@@ -18,49 +18,41 @@
  * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.core.actions.model;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+import simplediff.gumtree.core.tree.ITree;
+import simplediff.gumtree.core.tree.Type;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+public class Update extends Action {
+  private String value;
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
+  public Update(ITree node, String value, Type type) {
+    super(node, type);
+    this.value = value;
+  }
 
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
+  @Override
+  public String getName() {
+    return "update-node";
+  }
 
-.selected {
-	background-color: Gold;
-}
+  public String getValue() {
+    return this.value;
+  }
 
-.marker {
-	margin: 0;
-	padding: 0;
-}
+  @Override
+  public String toString() {
+    return String.format(
+        "===\n%s\n---\n%s\nreplace %s by %s",
+        getName(), node.toString(), node.getLabel(), getValue());
+  }
 
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+  /** Equals method for comparing Actions. */
+  public boolean equals(Object o) {
+    if (!(super.equals(o))) {
+      return false;
+    }
+    Update a = (Update) o;
+    return value == a.value;
+  }
 }

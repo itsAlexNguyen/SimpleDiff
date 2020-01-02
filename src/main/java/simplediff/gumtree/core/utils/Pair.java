@@ -18,49 +18,37 @@
  * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.core.utils;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+public class Pair<T1, T2> {
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+  public final T1 first;
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
+  public final T2 second;
 
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
+  public Pair(T1 a, T2 b) {
+    this.first = a;
+    this.second = b;
+  }
 
-.selected {
-	background-color: Gold;
-}
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
 
-.marker {
-	margin: 0;
-	padding: 0;
-}
+    Pair<?, ?> pair = (Pair<?, ?>) o;
+    return first.equals(pair.first) && second.equals(pair.second);
+  }
 
-.scrollable {
-	overflow: scroll;
-}
+  @Override
+  public int hashCode() {
+    int result = first.hashCode();
+    result = 33 * result + second.hashCode();
+    return result;
+  }
 
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+  @Override
+  public String toString() {
+    return String.format("%s -> %s", first.toString(), second.toString());
+  }
 }

@@ -14,53 +14,41 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with GumTree.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright 2011-2015 Jean-Rémy Falleri <jr.falleri@gmail.com>
- * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
+ * Copyright 2015-2017 Floréal Morandat <florealm@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.core.tree;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+import static simplediff.gumtree.core.tree.TypeSet.type;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+public final class Type {
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
+  public static final Type NO_TYPE = type("");
+  public final String name;
 
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
+  private Type(String value) {
+    name = value;
+  }
 
-.selected {
-	background-color: Gold;
-}
+  public boolean isEmpty() {
+    return this == NO_TYPE;
+  }
 
-.marker {
-	margin: 0;
-	padding: 0;
-}
+  @Override
+  public String toString() {
+    return name;
+  }
 
-.scrollable {
-	overflow: scroll;
-}
+  @Override
+  public int hashCode() {
+    return name.hashCode();
+  }
 
-.no-overflow {
-	overflow: hidden;
-}
+  static class TypeFactory {
+    protected TypeFactory() {}
 
-.tooltip-inner {
-    max-width: none;
+    protected Type makeType(String name) {
+      return new Type(name);
+    }
+  }
 }

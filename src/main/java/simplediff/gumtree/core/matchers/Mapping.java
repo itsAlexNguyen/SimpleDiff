@@ -18,49 +18,14 @@
  * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.core.matchers;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+import simplediff.gumtree.core.tree.ITree;
+import simplediff.gumtree.core.utils.Pair;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+public class Mapping extends Pair<ITree, ITree> {
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
-
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
-
-.selected {
-	background-color: Gold;
-}
-
-.marker {
-	margin: 0;
-	padding: 0;
-}
-
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+  public Mapping(ITree a, ITree b) {
+    super(a, b);
+  }
 }

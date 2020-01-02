@@ -18,49 +18,33 @@
  * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.diff.swing;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+import java.io.IOException;
+import javax.swing.JFrame;
+import simplediff.gumtree.core.gen.Generators;
+import simplediff.gumtree.core.tree.TreeContext;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+public final class SwingTree {
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
+  private SwingTree() {}
 
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
+  public static void main(String[] args) throws IOException {
+    final TreeContext t = Generators.getInstance().getTree(args[0]);
+    javax.swing.SwingUtilities.invokeLater(
+        new Runnable() {
+          @Override
+          public void run() {
+            createAndShow(t);
+          }
+        });
+  }
 
-.selected {
-	background-color: Gold;
-}
-
-.marker {
-	margin: 0;
-	padding: 0;
-}
-
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+  private static void createAndShow(TreeContext tree) {
+    JFrame frame = new JFrame("Tree Viewer");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.add(new TreePanel(tree));
+    frame.pack();
+    frame.setVisible(true);
+  }
 }

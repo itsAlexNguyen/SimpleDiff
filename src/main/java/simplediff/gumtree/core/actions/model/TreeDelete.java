@@ -14,53 +14,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with GumTree.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright 2011-2015 Jean-Rémy Falleri <jr.falleri@gmail.com>
- * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
+ * Copyright 2019 Jean-Rémy Falleri <jr.falleri@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.core.actions.model;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+import simplediff.gumtree.core.tree.ITree;
+import simplediff.gumtree.core.tree.Type;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+public class TreeDelete extends TreeAction {
+  public TreeDelete(ITree node) {
+    super(node);
+  }
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
+  public TreeDelete(ITree node, Type type) {
+    super(node, type);
+  }
 
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
+  @Override
+  public String getName() {
+    return "delete-tree";
+  }
 
-.selected {
-	background-color: Gold;
-}
-
-.marker {
-	margin: 0;
-	padding: 0;
-}
-
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+  @Override
+  public String toString() {
+    return String.format("===\n%s\n---\n%s", getName(), node.toTreeString());
+  }
 }

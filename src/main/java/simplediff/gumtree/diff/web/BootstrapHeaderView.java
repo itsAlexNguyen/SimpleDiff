@@ -18,49 +18,29 @@
  * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.diff.web;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+import static org.rendersnake.HtmlAttributesFactory.charset;
+import static org.rendersnake.HtmlAttributesFactory.name;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
+import java.io.IOException;
+import org.rendersnake.HtmlCanvas;
+import org.rendersnake.Renderable;
 
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
+public class BootstrapHeaderView implements Renderable {
 
-.selected {
-	background-color: Gold;
-}
-
-.marker {
-	margin: 0;
-	padding: 0;
-}
-
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+  @Override
+  public void renderOn(HtmlCanvas html) throws IOException {
+    html.head()
+        .meta(charset("utf8"))
+        .meta(name("viewport").content("width=device-width, initial-scale=1.0"))
+        .title()
+        .content("GumTree")
+        .macros()
+        .stylesheet("/dist/bootstrap.min.css")
+        .macros()
+        .stylesheet("/dist/gumtree.css")
+        ._head();
+  }
 }

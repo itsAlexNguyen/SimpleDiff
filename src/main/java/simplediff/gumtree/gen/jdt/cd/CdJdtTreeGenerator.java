@@ -18,49 +18,18 @@
  * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.gen.jdt.cd;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+import org.eclipse.jdt.core.compiler.IScanner;
+import simplediff.gumtree.core.gen.Register;
+import simplediff.gumtree.core.gen.Registry;
+import simplediff.gumtree.gen.jdt.AbstractJdtTreeGenerator;
+import simplediff.gumtree.gen.jdt.AbstractJdtVisitor;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
-
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
-
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
-
-.selected {
-	background-color: Gold;
-}
-
-.marker {
-	margin: 0;
-	padding: 0;
-}
-
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+@Register(id = "java-cdjdt", accept = "\\.java$", priority = Registry.Priority.MINIMUM)
+public class CdJdtTreeGenerator extends AbstractJdtTreeGenerator {
+  @Override
+  protected AbstractJdtVisitor createVisitor(IScanner scanner) {
+    return new CdJdtVisitor();
+  }
 }

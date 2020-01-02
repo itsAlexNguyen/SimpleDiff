@@ -18,49 +18,34 @@
  * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.core.tree;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+import java.util.Enumeration;
+import java.util.Iterator;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+public abstract class IterableEnumeration<T> implements Iterable<T> {
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
+  public static <T> Iterable<T> make(Enumeration<T> en) {
+    return new Iterable<T>() {
+      @Override
+      public Iterator<T> iterator() {
+        return new Iterator<T>() {
+          @Override
+          public boolean hasNext() {
+            return en.hasMoreElements();
+          }
 
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
+          @Override
+          public T next() {
+            return en.nextElement();
+          }
 
-.selected {
-	background-color: Gold;
-}
-
-.marker {
-	margin: 0;
-	padding: 0;
-}
-
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+          @Override
+          public void remove() {
+            throw new UnsupportedOperationException();
+          }
+        };
+      }
+    };
+  }
 }

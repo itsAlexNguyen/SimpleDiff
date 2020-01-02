@@ -14,53 +14,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with GumTree.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright 2011-2015 Jean-Rémy Falleri <jr.falleri@gmail.com>
- * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
+ * Copyright 2019 Jean-Rémy Falleri <jr.falleri@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.core.gen;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+import java.io.Reader;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+public class SyntaxException extends RuntimeException {
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
+  public SyntaxException(TreeGenerator g, Reader r) {
+    super(String.format("Syntax error on source code %s using generator %s", r, g));
+  }
 
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
-
-.selected {
-	background-color: Gold;
-}
-
-.marker {
-	margin: 0;
-	padding: 0;
-}
-
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+  public SyntaxException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }

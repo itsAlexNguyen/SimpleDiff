@@ -18,49 +18,16 @@
  * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.diff.web;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+import java.io.IOException;
+import org.rendersnake.HtmlCanvas;
+import org.rendersnake.Renderable;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+public class BootstrapFooterView implements Renderable {
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
-
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
-
-.selected {
-	background-color: Gold;
-}
-
-.marker {
-	margin: 0;
-	padding: 0;
-}
-
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+  @Override
+  public void renderOn(HtmlCanvas html) throws IOException {
+    html.macros().javascript("/dist/jquery.min.js").macros().javascript("/dist/bootstrap.min.js");
+  }
 }

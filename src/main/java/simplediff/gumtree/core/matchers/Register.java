@@ -18,49 +18,22 @@
  * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.core.matchers;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import org.atteo.classindex.IndexAnnotated;
+import simplediff.gumtree.core.gen.Registry;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@IndexAnnotated
+public @interface Register {
+  String id();
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
+  int priority() default Registry.Priority.MEDIUM;
 
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
-
-.selected {
-	background-color: Gold;
-}
-
-.marker {
-	margin: 0;
-	padding: 0;
-}
-
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+  boolean defaultMatcher() default false;
 }

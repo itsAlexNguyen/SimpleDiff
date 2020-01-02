@@ -18,49 +18,32 @@
  * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.core.io;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+public final class MatrixDebugger {
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+  private MatrixDebugger() {}
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
+  public static void dump(Object[][] mat) {
+    for (Object[] r : mat) {
+      for (Object l : r) System.out.print(l + "\t");
+      System.out.println();
+    }
+  }
 
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
+  public static void dump(boolean[][] mat) {
+    for (boolean[] r : mat) {
+      for (boolean l : r) System.out.print(l + "\t");
+      System.out.println();
+    }
+  }
 
-.selected {
-	background-color: Gold;
-}
-
-.marker {
-	margin: 0;
-	padding: 0;
-}
-
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+  public static void dump(double[][] mat) {
+    System.out.println("---");
+    for (double[] r : mat) {
+      for (double l : r) System.out.print(l + "\t");
+      System.out.println();
+    }
+    System.out.println("---");
+  }
 }

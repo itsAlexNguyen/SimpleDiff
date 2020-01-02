@@ -14,53 +14,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with GumTree.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright 2011-2015 Jean-Rémy Falleri <jr.falleri@gmail.com>
- * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
+ * Copyright 2019 Jean-Rémy Falleri <jr.falleri@gmail.com>
+ * Copyright 2019 Floréal Morandat <florealm@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.core.tree;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+public class TreeMetrics {
+  public final int size;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+  public final int height;
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
+  public final int hash;
 
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
+  public final int structureHash;
 
-.selected {
-	background-color: Gold;
-}
+  public final int depth;
 
-.marker {
-	margin: 0;
-	padding: 0;
-}
+  public final int position;
 
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+  public TreeMetrics(int size, int height, int hash, int structureHash, int depth, int position) {
+    this.size = size;
+    this.height = height;
+    this.hash = hash;
+    this.structureHash = structureHash;
+    this.depth = depth;
+    this.position = position;
+  }
 }

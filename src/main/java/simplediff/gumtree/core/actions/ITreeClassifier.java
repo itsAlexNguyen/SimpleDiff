@@ -14,53 +14,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with GumTree.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright 2011-2015 Jean-Rémy Falleri <jr.falleri@gmail.com>
- * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
+ * Copyright 2019 Jean-Rémy Falleri <jr.falleri@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.core.actions;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+import java.util.Set;
+import simplediff.gumtree.core.tree.ITree;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+public interface ITreeClassifier {
+  Set<ITree> getUpdatedSrcs();
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
+  Set<ITree> getDeletedSrcs();
 
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
+  Set<ITree> getMovedSrcs();
 
-.selected {
-	background-color: Gold;
-}
+  Set<ITree> getUpdatedDsts();
 
-.marker {
-	margin: 0;
-	padding: 0;
-}
+  Set<ITree> getInsertedDsts();
 
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+  Set<ITree> getMovedDsts();
 }

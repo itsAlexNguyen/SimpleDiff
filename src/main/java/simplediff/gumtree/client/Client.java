@@ -18,49 +18,16 @@
  * Copyright 2011-2015 Floréal Morandat <florealm@gmail.com>
  */
 
-.add {
-	border: 1px solid black;
-	background-color: MediumSeaGreen;
-}
+package simplediff.gumtree.client;
 
-.del {
-	border: 1px solid black;
-	background-color: DarkSalmon;
-}
+import org.atteo.classindex.IndexSubclasses;
 
-.mv {
-	border: 1px solid black;
-	background-color: Lavender;
-}
+@IndexSubclasses
+public abstract class Client {
+  @SuppressWarnings("unused")
+  public Client(String[] args) {
 
-.upd {
-	border: 1px solid black;
-	background-color: RosyBrown;
-	font-weight: bold;
-}
+  }
 
-.cupd {
-	font-weight: normal;
-	color: DimGray;
-}
-
-.selected {
-	background-color: Gold;
-}
-
-.marker {
-	margin: 0;
-	padding: 0;
-}
-
-.scrollable {
-	overflow: scroll;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.tooltip-inner {
-    max-width: none;
+  public abstract void run() throws Exception;
 }
