@@ -102,7 +102,7 @@ public class WebDiff extends AbstractDiffClient<WebDiff.Options> {
     }
   }
 
-  public String generate() {
+  public String generate(String title) {
     final DirectoryComparator comparator = new DirectoryComparator(opts.src, opts.dst);
     comparator.compare();
     final List<Pair<TreeContext, TreeContext>> contexts = new LinkedList<>();
@@ -116,6 +116,7 @@ public class WebDiff extends AbstractDiffClient<WebDiff.Options> {
               comparator.getModifiedFiles(),
               contexts,
               comparator.getModifiedFiles().size(),
+              title,
               getMatcher(),
               new ChawatheScriptGenerator(),
               new XMLChawatheScriptGenerator());

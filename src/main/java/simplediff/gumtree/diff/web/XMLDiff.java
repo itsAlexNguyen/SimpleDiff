@@ -30,6 +30,7 @@ public class XMLDiff {
       final List<Pair<File,File>> modifiedFiles,
       final List<Pair<TreeContext, TreeContext>> contexts,
       final int numFiles,
+      final String title,
       final Matcher matcher,
       final EditScriptGenerator editScriptGenerator,
       final XMLChawatheScriptGenerator xmlScriptGenerator)
@@ -39,6 +40,10 @@ public class XMLDiff {
     output.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n");
     output.append("<?xml-stylesheet type=\"text/xsl\" href=\"dist\\diff.xsl\" ?>\n");
     output.append("<document>\n");
+
+    output.append("\t<title>\n");
+    output.append("\t\t<name>").append(title).append("</name>\n");
+    output.append("\t</title>\n");
 
     for (int i = 0; i < numFiles; i++) {
       final Pair<File, File> pair = modifiedFiles.get(i);
@@ -64,7 +69,13 @@ public class XMLDiff {
       output.append("\t</file>\n");
     }
     output.append("</document>\n");
-
+/*
+    output.append("<pull_request>\n");
+    output.append("\t<title>\n");
+    output.append("\t\t<name>").append(title).append("</name>\n");
+    output.append("\t</title>\n");
+    output.append("</pull_request>\n");
+*/
     return output.toString();
     }
 

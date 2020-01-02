@@ -18,7 +18,7 @@
                             <xsl:attribute name="class">
                                 <xsl:text>text-center</xsl:text>
                             </xsl:attribute>
-                            SimpleDiff Repository - PR #2 - Code Change Summary
+                            <xsl:value-of select="document/title"/>
                         </h2>
                     </div>
 
