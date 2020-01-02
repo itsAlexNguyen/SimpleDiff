@@ -8,6 +8,11 @@
                         <xsl:text>container-fluid page</xsl:text>
                     </xsl:attribute>
 
+                    <xsl:variable
+                            name="target"
+                            select="data/target">
+                    </xsl:variable>
+
                     <!-- Page header -->
                     <div>
                         <xsl:attribute name="class">
@@ -18,7 +23,7 @@
                             <xsl:attribute name="class">
                                 <xsl:text>text-center</xsl:text>
                             </xsl:attribute>
-                            <xsl:value-of select="document/title"/>
+                            <xsl:value-of select="data/title"/>
                         </h2>
                     </div>
 
@@ -32,7 +37,7 @@
                         </xsl:attribute>
 
                         <!-- File diff per file content -->
-                        <xsl:for-each select="document/file">
+                        <xsl:for-each select="data/file">
 
                             <!-- Collapse menu for file-->
                             <button>
@@ -238,7 +243,6 @@
                                     <xsl:attribute name="class">
                                         <xsl:text>row change</xsl:text>
                                     </xsl:attribute>
-
                                     <button>
                                         <xsl:attribute name="class">
                                             <xsl:text>btn btn-secondary change-item text-left</xsl:text>
@@ -337,7 +341,6 @@
                                         <xsl:attribute name="id">
                                             <xsl:value-of select="concat('change-raw-', position())"/>
                                         </xsl:attribute>
-
                                         <div>
                                             <xsl:attribute name="class">
                                                 <xsl:text>card card-body</xsl:text>
@@ -347,6 +350,20 @@
                                                     <xsl:attribute name="class">
                                                         <xsl:text>row</xsl:text>
                                                     </xsl:attribute>
+
+                                                    <div>
+                                                        <xsl:attribute name="class">
+                                                            <xsl:text>col-6</xsl:text>
+                                                        </xsl:attribute>
+                                                        <xsl:text>Target Branch: </xsl:text>
+                                                        <xsl:copy-of select="$target" />
+                                                    </div>
+                                                    <div>
+                                                        <xsl:attribute name="class">
+                                                            <xsl:text>col-6</xsl:text>
+                                                        </xsl:attribute>
+                                                        <xsl:text>New Source Code </xsl:text>
+                                                    </div>
                                                     <xsl:for-each select="change-text/row-node/half-col">
                                                         <div>
                                                             <xsl:attribute name="class">

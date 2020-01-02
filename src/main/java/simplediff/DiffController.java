@@ -44,13 +44,13 @@ public class DiffController {
     prepareCommands(targetBranch, repoSlug, pullRequestID);
     WebDiff.initGenerators();
     final WebDiff diff = new WebDiff(new String[] {ORIGINAL_SOURCE_FOLDER, MODIFIED_SOURCE_FOLDER});
-    final String xmlOutput = diff.generate(getTitle(targetBranch, repoSlug, pullRequestID));
+    final String xmlOutput = diff.generate(getTitle(repoSlug, pullRequestID), targetBranch);
     finishedCommands();
     return xmlOutput;
   }
 
-  private String getTitle(String targetBranch, String repoSlug, int pullRequestID){
-    return repoSlug + " Repository " + " - PR #" + pullRequestID + " - " + targetBranch + " Branch - Code Change Summary";
+  private String getTitle(String repoSlug, int pullRequestID){
+    return repoSlug + " Repository " + " - PR #" + pullRequestID + " - Code Change Summary";
   }
 
   private void prepareCommands(
