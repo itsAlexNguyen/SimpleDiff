@@ -69,13 +69,7 @@ public class XMLDiff {
       output.append("\t</file>\n");
     }
     output.append("</document>\n");
-/*
-    output.append("<pull_request>\n");
-    output.append("\t<title>\n");
-    output.append("\t\t<name>").append(title).append("</name>\n");
-    output.append("\t</title>\n");
-    output.append("</pull_request>\n");
-*/
+
     return output.toString();
     }
 
