@@ -25,6 +25,12 @@
                             </xsl:attribute>
                             <xsl:value-of select="data/title"/>
                         </h2>
+                        <h2>
+                            <xsl:attribute name="class">
+                                <xsl:text>text-center</xsl:text>
+                            </xsl:attribute>
+                            <xsl:text>Code Change Summary</xsl:text>
+                        </h2>
                     </div>
 
                     <!-- Main content -->
