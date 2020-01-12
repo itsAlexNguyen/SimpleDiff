@@ -9,8 +9,8 @@
                     </xsl:attribute>
 
                     <xsl:variable
-                            name="target"
-                            select="data/target">
+                            name="targetBranch"
+                            select="data/targetBranch">
                     </xsl:variable>
 
                     <!-- Page header -->
@@ -356,7 +356,7 @@
                                                             <xsl:text>col-6</xsl:text>
                                                         </xsl:attribute>
                                                         <xsl:text>Target Branch: </xsl:text>
-                                                        <xsl:copy-of select="$target" />
+                                                        <xsl:copy-of select="$targetBranch" />
                                                     </div>
                                                     <div>
                                                         <xsl:attribute name="class">

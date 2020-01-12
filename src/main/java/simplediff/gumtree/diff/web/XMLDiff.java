@@ -46,9 +46,9 @@ public class XMLDiff {
     output.append("\t\t<name>").append(title).append("</name>\n");
     output.append("\t</title>\n");
 
-    output.append("\t<target>\n");
+    output.append("\t<targetBranch>\n");
     output.append("\t\t<name>").append(targetBranch).append("</name>\n");
-    output.append("\t</target>\n");
+    output.append("\t</targetBranch>\n");
 
     for (int i = 0; i < numFiles; i++) {
       final Pair<File, File> pair = modifiedFiles.get(i);
