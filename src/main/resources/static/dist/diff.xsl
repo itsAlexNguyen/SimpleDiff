@@ -289,20 +289,31 @@
                                                     <xsl:value-of select="change-text"/>
                                                 </div>
                                                 <div>
-                                                    <pre>
+                                                    <xsl:attribute name="class">
+                                                        <xsl:text>row</xsl:text>
+                                                    </xsl:attribute>
+                                                    <div>
                                                         <xsl:attribute name="class">
-                                                            <xsl:text>prettyprint</xsl:text>
+                                                            <xsl:text>col-6</xsl:text>
                                                         </xsl:attribute>
-                                                        <xsl:value-of select="change-src"/>
-                                                    </pre>
-                                                </div>
-                                                <div>
-                                                    <pre>
+                                                        <pre>
+                                                            <xsl:attribute name="class">
+                                                                <xsl:text>prettyprint</xsl:text>
+                                                            </xsl:attribute>
+                                                            <xsl:value-of select="change-src"/>
+                                                        </pre>
+                                                    </div>
+                                                    <div>
                                                         <xsl:attribute name="class">
-                                                            <xsl:text>prettyprint</xsl:text>
+                                                            <xsl:text>col-6</xsl:text>
                                                         </xsl:attribute>
-                                                        <xsl:value-of select="change-dst"/>
-                                                    </pre>
+                                                        <pre>
+                                                            <xsl:attribute name="class">
+                                                                <xsl:text>prettyprint</xsl:text>
+                                                            </xsl:attribute>
+                                                            <xsl:value-of select="change-dst"/>
+                                                        </pre>
+                                                    </div>
                                                 </div>
                                             </xsl:for-each>
                                         </div>
