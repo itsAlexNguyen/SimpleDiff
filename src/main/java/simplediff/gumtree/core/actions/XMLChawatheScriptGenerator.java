@@ -203,12 +203,12 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
         } else if (isSimpleName(w) && isMethodDeclaration(v)) {
           List<ITree> parent = getMethodParentBlock(v);
           changeList.add(
-              MethodChange.createInsertMethodChange(
+              MethodChange.createDeleteMethodChange(
                   w.getLabel(),
                   parent.get(0).getLabel(),
                   parent.get(1).getLabel(),
-                  w.getPos(),
-                  w.getLength(),
+                  v.getPos(),
+                  v.getLength(),
                   -1,
                   -1));
         } else if (isModifier(w)) {
