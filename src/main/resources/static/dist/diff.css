@@ -5,6 +5,8 @@ html {
 
 .page {
     background-color: lightgrey;
+    height: 100vh;
+    overflow: auto;
 }
 
 #file-1 {
