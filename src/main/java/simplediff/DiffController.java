@@ -1,12 +1,12 @@
 package simplediff;
 
 import java.io.IOException;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 import simplediff.commenting.CommentController;
 import simplediff.gumtree.diff.web.WebDiff;
+import simplediff.models.DiffRequest;
 
 @RestController
 public class DiffController {
@@ -46,8 +46,17 @@ public class DiffController {
     final WebDiff diff = new WebDiff(new String[] {ORIGINAL_SOURCE_FOLDER, MODIFIED_SOURCE_FOLDER});
     final String xmlOutput = diff.generate();
     finishedCommands();
-    makeComment(targetBranch, repoSlug, pullRequestID);
     return xmlOutput;
+  }
+
+  @RequestMapping(
+          value = "/create",
+          method = RequestMethod.POST,
+          consumes = {MediaType.APPLICATION_JSON_VALUE},
+          produces = {MediaType.APPLICATION_JSON_VALUE})
+  public DiffRequest createDiff(@RequestBody DiffRequest diff) {
+    makeComment(diff.targetBranch, diff.repoSlug, diff.pullRequestId);
+    return diff;
   }
 
   private void makeComment(String targetBranch, String repoSlug, int pullRequestID) {
