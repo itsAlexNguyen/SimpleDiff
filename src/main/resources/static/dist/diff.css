@@ -5,6 +5,8 @@ html {
 
 .page {
     background-color: lightgrey;
+    height: 100vh;
+    overflow: auto;
 }
 
 #file-1 {
@@ -40,6 +42,7 @@ html {
 .file-item {
     width: 100%;
     height: 50px;
+    margin: 10px 0;
 }
 
 div.card.card-body {

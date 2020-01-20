@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>GumTree</title><link type="text/css" href="/dist/bootstrap.min.css" rel="stylesheet"/><link type="text/css" href="/dist/gumtree.css" rel="stylesheet"/></head><body><div class="container-fluid"><div class="row"><div class="col-lg-12"><div class="btn-toolbar pull-right"><div class="btn-group"><a class="btn btn-default btn-xs" id="legend" href="#" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<span class=&quot;del&quot;>&nbsp;&nbsp;</span> deleted<br><span class=&quot;add&quot;>&nbsp;&nbsp;</span> added<br><span class=&quot;mv&quot;>&nbsp;&nbsp;</span> moved<br><span class=&quot;upd&quot;>&nbsp;&nbsp;</span> updated<br>" data-original-title="Legend" title="Legend" role="button">Legend</a><a class="btn btn-default btn-xs" id="shortcuts" href="#" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<b>q</b> quit<br><b>l</b> list<br><b>n</b> next<br><b>t</b> top<br><b>b</b> bottom" data-original-title="Shortcuts" title="Shortcuts" role="button">Shortcuts</a></div><div class="btn-group"><a class="btn btn-default btn-xs btn-danger" href="/quit">Quit</a></div></div></div></div><div class="row"><div class="col-lg-6 max-height"><h5>Example_v0.java</h5><pre class="pre max-height"><span class="marker" id="mapping-1"></span><span class="token del" data-title="CompilationUnit/PackageDeclaration">package controller;</span>
+
+<span class="marker" id="mapping-2"></span><span class="token del" data-title="CompilationUnit/ImportDeclaration">import java.util.Random;</span>
+
+public class A {
+    private static int <span class="marker" id="mapping-3"></span><span class="token upd" id="move-src-1" data-title="VariableDeclarationFragment/SimpleName">Z</span>;
+
+    public A() {
+        <span class="marker" id="mapping-4"></span><span class="token upd" id="move-src-2" data-title="Assignment/QualifiedName"><span class="cupd">A.</span>Z</span> = 5;
+    }
+
+    public int fcn(){
+        return <span class="marker" id="mapping-5"></span><span class="token upd" id="move-src-3" data-title="InfixExpression/QualifiedName"><span class="cupd">A.</span>Z</span> * <span class="marker" id="mapping-6"></span><span class="token del" data-title="InfixExpression/NumberLiteral">5</span>;
+    }
+
+    public int test(){
+        return <span class="marker" id="mapping-7"></span><span class="token upd" id="move-src-4" data-title="InfixExpression/QualifiedName"><span class="cupd">A.</span>Z</span> * <span class="marker" id="mapping-8"></span><span class="token del" data-title="InfixExpression/NumberLiteral">5</span>;
+    }
+}
+</pre></div><div class="col-lg-6 max-height"><h5>Example_v0.java</h5><pre class="pre max-height">public class A {
+    private static int <span class="marker" id="mapping-9"></span><span class="token upd" id="move-dst-1" data-title="VariableDeclarationFragment/SimpleName">X</span>;
+    <span class="marker" id="mapping-10"></span><span class="token add" data-title="TypeDeclaration/FieldDeclaration">private static int Y = 5;</span>
+
+    public A(){
+        <span class="marker" id="mapping-11"></span><span class="token upd" id="move-dst-2" data-title="Assignment/QualifiedName"><span class="cupd">A.</span>X</span> = 5;
+    }
+    
+    public int fcn(){
+        return <span class="marker" id="mapping-12"></span><span class="token upd" id="move-dst-3" data-title="InfixExpression/QualifiedName"><span class="cupd">A.</span>X</span> * <span class="marker" id="mapping-13"></span><span class="token add" data-title="InfixExpression/QualifiedName">A.Y</span>;
+    }
+    
+    public int test(){
+        return <span class="marker" id="mapping-14"></span><span class="token upd" id="move-dst-4" data-title="InfixExpression/QualifiedName"><span class="cupd">A.</span>X</span> * <span class="marker" id="mapping-15"></span><span class="token add" data-title="InfixExpression/QualifiedName">A.Y</span>;
+    }
+    
+    <span class="marker" id="mapping-16"></span><span class="token add" data-title="TypeDeclaration/MethodDeclaration">public int test(){
+        return 15 + 26;
+    }</span>
+    
+    <span class="marker" id="mapping-17"></span><span class="token add" data-title="TypeDeclaration/MethodDeclaration">public int test3(){
+        return 999 - 25;
+    }</span>
+}
+</pre></div></div></div><script type="text/javascript" src="/dist/jquery.min.js"></script><script type="text/javascript" src="/dist/bootstrap.min.js"></script><script type="text/javascript" src="/dist/diff.js"></script></body></html>

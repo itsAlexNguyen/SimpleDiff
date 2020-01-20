@@ -30,6 +30,8 @@ public class XMLDiff {
       final List<Pair<File,File>> modifiedFiles,
       final List<Pair<TreeContext, TreeContext>> contexts,
       final int numFiles,
+      final String title,
+      final String targetBranch,
       final Matcher matcher,
       final EditScriptGenerator editScriptGenerator,
       final XMLChawatheScriptGenerator xmlScriptGenerator)
@@ -38,7 +40,15 @@ public class XMLDiff {
     StringBuilder output = new StringBuilder();
     output.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n");
     output.append("<?xml-stylesheet type=\"text/xsl\" href=\"dist\\diff.xsl\" ?>\n");
-    output.append("<document>\n");
+    output.append("<data>\n");
+
+    output.append("\t<title>\n");
+    output.append("\t\t<name>").append(title).append("</name>\n");
+    output.append("\t</title>\n");
+
+    output.append("\t<targetBranch>\n");
+    output.append("\t\t<name>").append(targetBranch).append("</name>\n");
+    output.append("\t</targetBranch>\n");
 
     for (int i = 0; i < numFiles; i++) {
       final Pair<File, File> pair = modifiedFiles.get(i);
@@ -63,7 +73,7 @@ public class XMLDiff {
       output.append(publishFile(srcFile, dstFile, changeList, rawHtmlDiff));
       output.append("\t</file>\n");
     }
-    output.append("</document>\n");
+    output.append("</data>\n");
 
     return output.toString();
     }
