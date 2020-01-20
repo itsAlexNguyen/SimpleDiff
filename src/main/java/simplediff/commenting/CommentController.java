@@ -12,9 +12,6 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import simplediff.commenting.github.CommentRq;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 /**
  * This Controller is responsible for commenting on a Pull Request.
  */
@@ -45,13 +42,12 @@ public class CommentController {
         String host = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .build().toString();
 
-        UriComponents uriComponents = UriComponentsBuilder.fromPath(host)
+        UriComponents uriComponents = UriComponentsBuilder.fromUriString(host)
                 .pathSegment(Constants.URL_PATH)
                 .queryParam(Constants.TARGET_BRANCH_KEY, targetBranch)
                 .queryParam(Constants.REPO_SLUG_KEY, repoSlug)
                 .queryParam(Constants.PULL_REQUEST_ID_KEY, pullRequestId)
                 .build();
-
         CommentRq requestModel = new CommentRq("I generated a SimpleDiff here -> " + uriComponents.toUriString());
         MultiValueMap<String, String> headers= new LinkedMultiValueMap<>();
 
