@@ -9,7 +9,7 @@ public final class Constants {
     public static final String TARGET_BRANCH_KEY = "targetBranch";
     public static final String REPO_SLUG_KEY = "repoSlug";
     public static final String PULL_REQUEST_ID_KEY = "pullRequestID";
-    public static final String GITHUB_API_TOKEN = "";
+    public static final String GITHUB_API_TOKEN = ""; // Add own Github API key here.
 
     /**
      * Github URL Constants.

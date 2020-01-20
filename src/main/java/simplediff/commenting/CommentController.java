@@ -49,9 +49,12 @@ public class CommentController {
                 .queryParam(Constants.PULL_REQUEST_ID_KEY, pullRequestId)
                 .build();
         CommentRq requestModel = new CommentRq("I generated a SimpleDiff here -> " + uriComponents.toUriString());
-        MultiValueMap<String, String> headers= new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
 
         if (StringUtils.isEmpty(System.getenv(Constants.HEROKU_GITHUB_TOKEN_KEY))) {
+            if (StringUtils.isEmpty(Constants.GITHUB_API_TOKEN)) {
+                throw new IllegalArgumentException("The GitHub API Token cannot be empty");
+            }
             headers.add("Authorization", "token " + Constants.GITHUB_API_TOKEN);
         } else {
             headers.add("Authorization", "token " + System.getenv(Constants.HEROKU_GITHUB_TOKEN_KEY));
