@@ -15,7 +15,7 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'checkstyle'
 
 bootJar {
-    baseName = 'gs-rest-service'
+    baseName = 'simplediff'
     version =  '0.1.0'
 }
 
