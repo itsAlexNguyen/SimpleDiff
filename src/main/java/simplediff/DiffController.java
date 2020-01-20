@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import simplediff.commenting.CommentController;
 import simplediff.gumtree.diff.web.WebDiff;
 
 @RestController
 public class DiffController {
-
   private static final String BASH_PATH;
   private static final String CLEANUP_COMMAND;
   private static final String ORIGINAL_SOURCE_FOLDER = "source";
@@ -46,7 +46,13 @@ public class DiffController {
     final WebDiff diff = new WebDiff(new String[] {ORIGINAL_SOURCE_FOLDER, MODIFIED_SOURCE_FOLDER});
     final String xmlOutput = diff.generate();
     finishedCommands();
+    makeComment(targetBranch, repoSlug, pullRequestID);
     return xmlOutput;
+  }
+
+  private void makeComment(String targetBranch, String repoSlug, int pullRequestID) {
+    CommentController controller = new CommentController(repoSlug, String.valueOf(pullRequestID), targetBranch);
+    controller.commentOnGitHub();
   }
 
   private void prepareCommands(
