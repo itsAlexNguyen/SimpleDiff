@@ -8,6 +8,11 @@
                         <xsl:text>container-fluid page</xsl:text>
                     </xsl:attribute>
 
+                    <xsl:variable
+                            name="targetBranch"
+                            select="data/targetBranch">
+                    </xsl:variable>
+
                     <!-- Page header -->
                     <div>
                         <xsl:attribute name="class">
@@ -18,7 +23,13 @@
                             <xsl:attribute name="class">
                                 <xsl:text>text-center</xsl:text>
                             </xsl:attribute>
-                            SimpleDiff Repository - PR #2 - Code Change Summary
+                            <xsl:value-of select="data/title"/>
+                        </h2>
+                        <h2>
+                            <xsl:attribute name="class">
+                                <xsl:text>text-center</xsl:text>
+                            </xsl:attribute>
+                            <xsl:text>Code Change Summary</xsl:text>
                         </h2>
                     </div>
 
@@ -32,12 +43,12 @@
                         </xsl:attribute>
 
                         <!-- File diff per file content -->
-                        <xsl:for-each select="document/file">
+                        <xsl:for-each select="data/file">
 
                             <!-- Collapse menu for file-->
                             <button>
                                 <xsl:attribute name="class">
-                                    <xsl:text>btn btn-secondary file-item text-left</xsl:text>
+                                    <xsl:text>btn btn-secondary file-item text-left dropdown-toggle</xsl:text>
                                 </xsl:attribute>
                                 <xsl:attribute name="type">
                                     <xsl:text>button</xsl:text>
@@ -74,7 +85,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -122,7 +133,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -174,7 +185,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -238,10 +249,9 @@
                                     <xsl:attribute name="class">
                                         <xsl:text>row change</xsl:text>
                                     </xsl:attribute>
-
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -279,20 +289,31 @@
                                                     <xsl:value-of select="change-text"/>
                                                 </div>
                                                 <div>
-                                                    <pre>
+                                                    <xsl:attribute name="class">
+                                                        <xsl:text>row</xsl:text>
+                                                    </xsl:attribute>
+                                                    <div>
                                                         <xsl:attribute name="class">
-                                                            <xsl:text>prettyprint</xsl:text>
+                                                            <xsl:text>col-6</xsl:text>
                                                         </xsl:attribute>
-                                                        <xsl:value-of select="change-src"/>
-                                                    </pre>
-                                                </div>
-                                                <div>
-                                                    <pre>
+                                                        <pre>
+                                                            <xsl:attribute name="class">
+                                                                <xsl:text>prettyprint</xsl:text>
+                                                            </xsl:attribute>
+                                                            <xsl:value-of select="change-src"/>
+                                                        </pre>
+                                                    </div>
+                                                    <div>
                                                         <xsl:attribute name="class">
-                                                            <xsl:text>prettyprint</xsl:text>
+                                                            <xsl:text>col-6</xsl:text>
                                                         </xsl:attribute>
-                                                        <xsl:value-of select="change-dst"/>
-                                                    </pre>
+                                                        <pre>
+                                                            <xsl:attribute name="class">
+                                                                <xsl:text>prettyprint</xsl:text>
+                                                            </xsl:attribute>
+                                                            <xsl:value-of select="change-dst"/>
+                                                        </pre>
+                                                    </div>
                                                 </div>
                                             </xsl:for-each>
                                         </div>
@@ -309,7 +330,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -337,7 +358,6 @@
                                         <xsl:attribute name="id">
                                             <xsl:value-of select="concat('change-raw-', position())"/>
                                         </xsl:attribute>
-
                                         <div>
                                             <xsl:attribute name="class">
                                                 <xsl:text>card card-body</xsl:text>
@@ -347,6 +367,20 @@
                                                     <xsl:attribute name="class">
                                                         <xsl:text>row</xsl:text>
                                                     </xsl:attribute>
+
+                                                    <div>
+                                                        <xsl:attribute name="class">
+                                                            <xsl:text>col-6</xsl:text>
+                                                        </xsl:attribute>
+                                                        <xsl:text>Target Branch: </xsl:text>
+                                                        <xsl:copy-of select="$targetBranch" />
+                                                    </div>
+                                                    <div>
+                                                        <xsl:attribute name="class">
+                                                            <xsl:text>col-6</xsl:text>
+                                                        </xsl:attribute>
+                                                        <xsl:text>New Source Code </xsl:text>
+                                                    </div>
                                                     <xsl:for-each select="change-text/row-node/half-col">
                                                         <div>
                                                             <xsl:attribute name="class">
@@ -433,9 +467,9 @@
                     </div> <!-- End main content -->
                 </div>
             </body>
-            <link rel="stylesheet" href="dist/diff.css"/>
             <link rel="stylesheet" href="dist/gumtree.css"/>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+            <link rel="stylesheet" href="dist/diff.css"/>
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

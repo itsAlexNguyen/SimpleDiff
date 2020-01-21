@@ -107,6 +107,20 @@ public class DirectoryComparator {
   }
 
   public List<Pair<File, File>> getModifiedFiles() {
+    return sortModifiedFiles(modifiedFiles);
+  }
+
+  public List<Pair<File, File>> sortModifiedFiles(List<Pair<File, File>> modifiedFiles) {
+    Pair<File, File> temp = null;
+    for(int i = 0; i < modifiedFiles.size(); i++){
+      for(int j = i+1; j < modifiedFiles.size(); j++){
+        if(modifiedFiles.get(i).first.getName().compareTo(modifiedFiles.get(j).first.getName()) > 0){
+          temp = modifiedFiles.get(i);
+          modifiedFiles.set(i, modifiedFiles.get(j));
+          modifiedFiles.set(j, temp);
+        }
+      }
+    }
     return modifiedFiles;
   }
 
