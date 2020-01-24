@@ -3,11 +3,20 @@ package simplediff.gumtree.core.actions.model;
 /** Represents a single diff. */
 public class Change implements Comparable<Change> {
 
-  private final String changeText;
+  protected final String changeText;
+
+  protected final String openingChangeTag = "\t\t\t<change>\n";
+  protected final String closingChangeTag = "\t\t\t</change>\n";
+
+  protected final String openingTextTag = "\t\t\t\t<change-text>";
+  protected final String closingTextTag = "\n\t\t\t\t</change-text>\n";
+
+  protected final ChangeType changeType;
   protected int changePriority = Integer.MAX_VALUE;
 
-  public Change(final String changeText) {
+  public Change(final String changeText, final ChangeType changeType) {
     this.changeText = changeText;
+    this.changeType = changeType;
   }
 
   public String getChangeText() {
@@ -17,6 +26,16 @@ public class Change implements Comparable<Change> {
   @Override
   public String toString() {
     return changeText;
+  }
+
+  public String getXMLString() {
+    return changeType.getOpeningTag() +
+        openingChangeTag +
+        openingTextTag +
+        changeText +
+        closingTextTag +
+        closingChangeTag +
+        changeType.getClosingTag();
   }
 
   @Override

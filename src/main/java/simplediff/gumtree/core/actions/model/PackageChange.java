@@ -3,7 +3,7 @@ package simplediff.gumtree.core.actions.model;
 public class PackageChange extends Change {
 
   private PackageChange(final String changeText, final int priority) {
-    super(changeText);
+    super(changeText, ChangeType.PACKAGE);
     this.changePriority = priority;
   }
 
