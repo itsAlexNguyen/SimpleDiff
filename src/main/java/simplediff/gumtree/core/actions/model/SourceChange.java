@@ -48,8 +48,7 @@ public class SourceChange extends Change {
     final String srcClosingSourceTag = "\n</change-src>\n";
     final String dstOpeningSourceTag = "<change-dst>\n";
     final String dstClosingSourceTag = "\n</change-dst>\n";
-
-    System.out.println(this.changeType);
+    
     final StringBuilder xmlString = new StringBuilder();
     xmlString.append(this.changeType.getOpeningTag());
     xmlString.append(this.openingChangeTag);
