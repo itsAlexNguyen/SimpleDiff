@@ -25,21 +25,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 @RestController
 public class DiffController {
 
-  private static final String BASH_PATH;
-  private static final String CLEANUP_COMMAND;
   private static final String ORIGINAL_SOURCE_FOLDER = "source";
   private static final String MODIFIED_SOURCE_FOLDER = "target";
-
-  static {
-    final String nameOS = System.getProperty("os.name");
-    if (nameOS.equals("Windows 10")) {
-      BASH_PATH = "C:\\Program Files\\Git\\git-bash.exe";
-    } else {
-      BASH_PATH = "bash";
-    }
-    CLEANUP_COMMAND =
-        String.format("rm -rf %s && rm -rf %s", ORIGINAL_SOURCE_FOLDER, MODIFIED_SOURCE_FOLDER);
-  }
 
   /**
    * Handles diff requests.
@@ -63,8 +50,23 @@ public class DiffController {
       final String xmlOutput = diff.generate(getTitle(repoSlug, pullRequestID, targetBranch), targetBranch);
       return xmlOutput;
     } finally {
-      executeBashCommand(CLEANUP_COMMAND);
+      deleteDirectory(new File(ORIGINAL_SOURCE_FOLDER));
+      deleteDirectory(new File(MODIFIED_SOURCE_FOLDER));
     }
+  }
+
+  private static void deleteDirectory(File path) {
+    File[] files = path.listFiles();
+    if (files != null) {
+      for (File file : files) {
+        if (file.isDirectory()) {
+          deleteDirectory(file);
+        } else {
+          file.delete();
+        }
+      }
+    }
+    path.delete();
   }
 
   private String getTitle(String repoSlug, int pullRequestID, String targetBranch){
@@ -127,17 +129,6 @@ public class DiffController {
       modifiedCheckout.call();
     } catch (Exception e) {
       throw new RuntimeException(e);
-    }
-  }
-
-  private void executeBashCommand(final String command) {
-    final ProcessBuilder processBuilder = new ProcessBuilder();
-    processBuilder.command(BASH_PATH, "-c", command);
-    try {
-      final Process process = processBuilder.start();
-      int exitVal = process.waitFor();
-    } catch (IOException | InterruptedException e) {
-      e.printStackTrace();
     }
   }
 }
