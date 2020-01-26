@@ -1,23 +1,16 @@
 package simplediff.gumtree.diff.web;
 
-import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
+
 import simplediff.gumtree.core.actions.Diff;
 import simplediff.gumtree.core.actions.EditScript;
 import simplediff.gumtree.core.actions.EditScriptGenerator;
 import simplediff.gumtree.core.actions.XMLChawatheScriptGenerator;
 import simplediff.gumtree.core.actions.model.Change;
-import simplediff.gumtree.core.actions.model.ImportChange;
-import simplediff.gumtree.core.actions.model.MethodChange;
-import simplediff.gumtree.core.actions.model.PackageChange;
 import simplediff.gumtree.core.actions.model.SourceChange;
 import simplediff.gumtree.core.matchers.MappingStore;
 import simplediff.gumtree.core.matchers.Matcher;

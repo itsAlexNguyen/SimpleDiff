@@ -3,6 +3,7 @@ package simplediff.gumtree.core.actions.model;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import org.apache.commons.text.StringEscapeUtils;
 
 public class SourceChange extends Change {
   private final int srcStart;
@@ -48,7 +49,7 @@ public class SourceChange extends Change {
     final String srcClosingSourceTag = "\n</change-src>\n";
     final String dstOpeningSourceTag = "<change-dst>\n";
     final String dstClosingSourceTag = "\n</change-dst>\n";
-    
+
     final StringBuilder xmlString = new StringBuilder();
     xmlString.append(this.changeType.getOpeningTag());
     xmlString.append(this.openingChangeTag);
@@ -61,7 +62,7 @@ public class SourceChange extends Change {
     if (srcPos != -1) {
       String sourceCode = read(srcFile, srcPos, srcLength);
       xmlString.append(srcOpeningSourceTag);
-      xmlString.append(sourceCode);
+      xmlString.append(StringEscapeUtils.escapeXml11(sourceCode));
       xmlString.append(srcClosingSourceTag);
     }
 
@@ -70,7 +71,7 @@ public class SourceChange extends Change {
     if (dstPos != -1) {
       String sourceCode = read(dstFile, dstPos, dstLength);
       xmlString.append(dstOpeningSourceTag);
-      xmlString.append(sourceCode);
+      xmlString.append(StringEscapeUtils.escapeXml11(sourceCode));
       xmlString.append(dstClosingSourceTag);
     }
     xmlString.append(closingChangeTag);
