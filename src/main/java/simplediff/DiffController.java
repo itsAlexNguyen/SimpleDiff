@@ -1,11 +1,26 @@
 package simplediff;
 
 import java.io.IOException;
+import java.io.File;
+import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import simplediff.gumtree.diff.web.WebDiff;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.CheckoutCommand;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 @RestController
 public class DiffController {
@@ -41,53 +56,78 @@ public class DiffController {
       final @RequestParam String targetBranch,
       final @RequestParam String repoSlug,
       final @RequestParam int pullRequestID) {
-    prepareCommands(targetBranch, repoSlug, pullRequestID);
-    WebDiff.initGenerators();
-    final WebDiff diff = new WebDiff(new String[] {ORIGINAL_SOURCE_FOLDER, MODIFIED_SOURCE_FOLDER});
-    final String xmlOutput = diff.generate(getTitle(repoSlug, pullRequestID, targetBranch), targetBranch);
-    finishedCommands();
-    return xmlOutput;
+    try {
+      prepareCommands(targetBranch, repoSlug, pullRequestID);
+      WebDiff.initGenerators();
+      final WebDiff diff = new WebDiff(new String[] {ORIGINAL_SOURCE_FOLDER, MODIFIED_SOURCE_FOLDER});
+      final String xmlOutput = diff.generate(getTitle(repoSlug, pullRequestID, targetBranch), targetBranch);
+      return xmlOutput;
+    } finally {
+      executeBashCommand(CLEANUP_COMMAND);
+    }
   }
 
   private String getTitle(String repoSlug, int pullRequestID, String targetBranch){
     return "Repository: " + repoSlug + " - Target Branch: " + targetBranch + " - PR #" + pullRequestID;
   }
 
-  private void prepareCommands(
-      final String targetBranch, final String repoSlug, final int pullRequestID) {
+  private static AbstractTreeIterator prepareTreeParser(Repository repo, String ref) throws IOException {
+    // from the commit we can build the tree which allows us to construct the TreeParser
+    Ref head = repo.exactRef(ref);
+    try (RevWalk walk = new RevWalk(repo)) {
+      RevCommit commit = walk.parseCommit(head.getObjectId());
+      RevTree tree = walk.parseTree(commit.getTree().getId());
 
-    final String[] commandList = new String[4];
-    commandList[0] =
-        String.format(
-            "git clone -b %s https://github.com/%s.git -n --depth 1 %s",
-            targetBranch, repoSlug, ORIGINAL_SOURCE_FOLDER);
-    commandList[1] =
-        String.format(
-            "git clone -b %s https://github.com/%s.git -n --depth 1 %s",
-            targetBranch, repoSlug, MODIFIED_SOURCE_FOLDER);
-    commandList[2] =
-        String.format(
-            "cd %s && git fetch origin pull/%d/head", MODIFIED_SOURCE_FOLDER, pullRequestID);
-    commandList[3] =
-        String.join(
-            "",
-            "cd ",
-            MODIFIED_SOURCE_FOLDER,
-            " && git diff --name-only --diff-filter=M ",
-            targetBranch,
-            " FETCH_HEAD | xargs -I %% bash -c 'git checkout FETCH_HEAD -- %%; cd ../",
-            ORIGINAL_SOURCE_FOLDER,
-            "; git checkout ",
-            targetBranch,
-            " -- %%;'");
-
-    for (String command : commandList) {
-      executeBashCommand(command);
+      CanonicalTreeParser treeParser = new CanonicalTreeParser();
+      try (ObjectReader reader = repo.newObjectReader()) {
+        treeParser.reset(reader, tree.getId());
+      }
+      walk.dispose();
+      return treeParser;
     }
   }
 
-  private void finishedCommands() {
-    executeBashCommand(CLEANUP_COMMAND);
+  private void prepareCommands(
+      final String targetBranch, final String repoSlug, final int pullRequestID) {
+
+    try {
+      Git og_repo = Git.cloneRepository()
+         .setURI(String.format("https://github.com/%s.git", repoSlug))
+         .setDirectory(new File(ORIGINAL_SOURCE_FOLDER))
+         .setBranch(targetBranch)
+         .call();
+      Git mod_repo = Git.cloneRepository()
+         .setURI(String.format("https://github.com/%s.git", repoSlug))
+         .setDirectory(new File(MODIFIED_SOURCE_FOLDER))
+         .setBranch(targetBranch)
+         .call();
+      mod_repo.fetch()
+         .setRemote("origin")
+         .setRefSpecs(new RefSpec(String.format("refs/pull/%d/head:refs/remotes/origin/pr/%d", pullRequestID, pullRequestID)))
+         .call();
+
+      AbstractTreeIterator oldTree = prepareTreeParser(mod_repo.getRepository(), "FETCH_HEAD");
+      AbstractTreeIterator newTree = prepareTreeParser(mod_repo.getRepository(), "refs/heads/" + targetBranch);
+      List<DiffEntry> changed_files =
+        mod_repo.diff()
+          .setShowNameAndStatusOnly(true)
+          .setOldTree(oldTree)
+          .setNewTree(newTree)
+          .call();
+
+      CheckoutCommand ogCheckout = og_repo.checkout().setStartPoint(targetBranch);
+      CheckoutCommand modifiedCheckout = mod_repo.checkout().setStartPoint("FETCH_HEAD");
+      for (DiffEntry changed_file : changed_files) {
+        if (changed_file.getChangeType() == DiffEntry.ChangeType.MODIFY) {
+          ogCheckout.addPath(changed_file.getNewPath()); // newPath == oldPath because its modified, not moved/added/removed
+          modifiedCheckout.addPath(changed_file.getNewPath());
+        }
+      }
+      ogCheckout.call();
+      modifiedCheckout.call();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private void executeBashCommand(final String command) {

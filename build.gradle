@@ -46,6 +46,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'org.jgrapht:jgrapht-core:1.0.1'
     implementation 'org.eclipse.jdt:org.eclipse.jdt.core:3.16.0'
+
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:5.5.+'
 }
 
 
