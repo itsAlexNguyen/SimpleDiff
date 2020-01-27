@@ -292,17 +292,19 @@
                                                     <xsl:attribute name="class">
                                                         <xsl:text>row</xsl:text>
                                                     </xsl:attribute>
-                                                    <div>
-                                                        <xsl:attribute name="class">
-                                                            <xsl:text>col-6</xsl:text>
-                                                        </xsl:attribute>
-                                                        <pre>
+                                                    <xsl:if test="change-src!=''">
+                                                        <div>
                                                             <xsl:attribute name="class">
-                                                                <xsl:text>prettyprint</xsl:text>
+                                                                <xsl:text>col-6</xsl:text>
                                                             </xsl:attribute>
-                                                            <xsl:value-of select="change-src"/>
-                                                        </pre>
-                                                    </div>
+                                                            <pre>
+                                                                <xsl:attribute name="class">
+                                                                    <xsl:text>prettyprint</xsl:text>
+                                                                </xsl:attribute>
+                                                                <xsl:value-of select="change-src"/>
+                                                            </pre>
+                                                        </div>
+                                                    </xsl:if>
                                                     <div>
                                                         <xsl:attribute name="class">
                                                             <xsl:text>col-6</xsl:text>
@@ -475,6 +477,14 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=java&amp;skin=desert"></script>
             <script type="text/javascript" src="/dist/diff.js"></script>
+            <script type="text/javascript">
+                $.each(document.getElementsByClassName("collapse"), function(index, item){
+                    if (item.children[0].childElementCount == 0){
+                        item.parentElement.style.visibility = 'hidden';
+                        item.parentElement.style.display = 'none';
+                    }
+                })
+            </script>
         </html>
     </xsl:template>
 </xsl:stylesheet>

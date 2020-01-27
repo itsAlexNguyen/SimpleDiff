@@ -19,7 +19,7 @@ public class ModifierChange extends SourceChange {
       final int srcLength,
       final int dstStart,
       final int dstLength, final int priority) {
-    super(changeText, srcStart, srcLength, dstStart, dstLength);
+    super(changeText, ChangeType.MODIFIER, srcStart, srcLength, dstStart, dstLength);
     this.changePriority = priority;
   }
 

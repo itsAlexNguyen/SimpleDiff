@@ -3,7 +3,7 @@ package simplediff.gumtree.core.actions.model;
 public class ImportChange extends Change {
 
   private ImportChange(String changeText, int priority) {
-    super(changeText);
+    super(changeText, ChangeType.IMPORT);
     this.changePriority = priority;
   }
 
