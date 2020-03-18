@@ -479,7 +479,6 @@
             <script type="text/javascript" src="/dist/diff.js"></script>
             <script type="text/javascript">
                 $.each(document.getElementsByClassName("collapse"), function(index, item){
-                    //item.addEventListener("click", closeAll(item));
                     if (item.children[0].childElementCount == 0){
                         item.parentElement.style.visibility = 'hidden';
                         item.parentElement.style.display = 'none';
