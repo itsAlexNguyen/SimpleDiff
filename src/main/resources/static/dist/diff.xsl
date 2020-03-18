@@ -479,11 +479,24 @@
             <script type="text/javascript" src="/dist/diff.js"></script>
             <script type="text/javascript">
                 $.each(document.getElementsByClassName("collapse"), function(index, item){
+                    //item.addEventListener("click", closeAll(item));
                     if (item.children[0].childElementCount == 0){
                         item.parentElement.style.visibility = 'hidden';
                         item.parentElement.style.display = 'none';
                     }
                 })
+                document.addEventListener('click', function (event) {
+                    if (event.target.classList.contains('collapsed')){
+                        var affectedElement = event.target.nextSibling;
+                        var innerOpenElements = affectedElement.getElementsByClassName("show");
+
+                        var len = innerOpenElements.length;
+                        for (var i = (len-1); i >= 0; i--) {
+                            innerOpenElements[i].classList.remove('show');
+                        }
+                    };
+                }, false);
+
             </script>
         </html>
     </xsl:template>
