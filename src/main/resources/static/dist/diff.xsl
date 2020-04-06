@@ -48,7 +48,7 @@
                             <!-- Collapse menu for file-->
                             <button>
                                 <xsl:attribute name="class">
-                                    <xsl:text>btn btn-secondary file-item text-left dropdown-toggle</xsl:text>
+                                    <xsl:text>btn btn-secondary file-item text-left dropdown-toggle collapsed</xsl:text>
                                 </xsl:attribute>
                                 <xsl:attribute name="type">
                                     <xsl:text>button</xsl:text>
@@ -85,7 +85,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -133,7 +133,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -185,7 +185,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -251,7 +251,7 @@
                                     </xsl:attribute>
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -332,7 +332,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>

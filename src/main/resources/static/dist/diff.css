@@ -48,3 +48,12 @@ html {
 div.card.card-body {
     background-color: lightblue;
 }
+
+.dropdown-toggle::after{
+    transform: rotate(-90deg);
+}
+
+.dropdown-toggle.collapsed::after{
+    transform: rotate(0deg);
+}
+
