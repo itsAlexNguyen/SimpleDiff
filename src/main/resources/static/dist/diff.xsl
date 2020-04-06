@@ -491,6 +491,7 @@
 
                         var len = innerOpenElements.length;
                         for (var i = (len-1); i >= 0; i--) {
+                            innerOpenElements[i].previousSibling.classList.add('collapsed');
                             innerOpenElements[i].classList.remove('show');
                         }
                     };
