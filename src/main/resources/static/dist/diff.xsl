@@ -48,7 +48,7 @@
                             <!-- Collapse menu for file-->
                             <button>
                                 <xsl:attribute name="class">
-                                    <xsl:text>btn btn-secondary file-item text-left dropdown-toggle</xsl:text>
+                                    <xsl:text>btn btn-secondary file-item text-left dropdown-toggle collapsed</xsl:text>
                                 </xsl:attribute>
                                 <xsl:attribute name="type">
                                     <xsl:text>button</xsl:text>
@@ -85,7 +85,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -133,7 +133,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -302,7 +302,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -368,7 +368,7 @@
                                     </xsl:attribute>
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -525,7 +525,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -677,6 +677,19 @@
                         item.parentElement.style.display = 'none';
                     }
                 })
+                document.addEventListener('click', function (event) {
+                    if (event.target.classList.contains('collapsed')){
+                        var affectedElement = event.target.nextSibling;
+                        var innerOpenElements = affectedElement.getElementsByClassName("show");
+
+                        var len = innerOpenElements.length;
+                        for (var i = (len-1); i >= 0; i--) {
+                            innerOpenElements[i].previousSibling.classList.add('collapsed');
+                            innerOpenElements[i].classList.remove('show');
+                        }
+                    };
+                }, false);
+
             </script>
         </html>
     </xsl:template>

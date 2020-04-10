@@ -43,8 +43,22 @@ html {
     width: 100%;
     height: 50px;
     margin: 10px 0;
+    background-color: #4d4d4d;/**/
+}
+
+.file-item:hover {
+    background-color: #333333;/**/
 }
 
 div.card.card-body {
     background-color: lightblue;
 }
+
+.dropdown-toggle::after{
+    transform: rotate(-90deg);
+}
+
+.dropdown-toggle.collapsed::after{
+    transform: rotate(0deg);
+}
+
