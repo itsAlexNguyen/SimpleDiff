@@ -41,11 +41,11 @@ public class DiffController {
       final @RequestParam String targetBranch,
       final @RequestParam String repoSlug,
       final @RequestParam int pullRequestID) {
-    //prepareCommands(targetBranch, repoSlug, pullRequestID);
+    prepareCommands(targetBranch, repoSlug, pullRequestID);
     WebDiff.initGenerators();
     final WebDiff diff = new WebDiff(new String[] {ORIGINAL_SOURCE_FOLDER, MODIFIED_SOURCE_FOLDER});
     final String xmlOutput = diff.generate(getTitle(repoSlug, pullRequestID, targetBranch), targetBranch);
-    //finishedCommands();
+    finishedCommands();
     return xmlOutput;
   }
 

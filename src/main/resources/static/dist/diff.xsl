@@ -252,7 +252,7 @@
                                         <xsl:attribute name="aria-controls">
                                             <xsl:text>collapseExample</xsl:text>
                                         </xsl:attribute>
-                                        Documentation Changes
+                                        Javadoc Documentation Changes
                                     </button>
 
                                     <!-- Modifier declaration collapsible diff -->
