@@ -8,12 +8,15 @@ import java.util.stream.Collectors;
 import simplediff.gumtree.core.actions.model.Action;
 import simplediff.gumtree.core.actions.model.Change;
 import simplediff.gumtree.core.actions.model.Delete;
+import simplediff.gumtree.core.actions.model.FieldDeclarationChange;
 import simplediff.gumtree.core.actions.model.ImportChange;
 import simplediff.gumtree.core.actions.model.Insert;
+import simplediff.gumtree.core.actions.model.JavadocChange;
 import simplediff.gumtree.core.actions.model.MethodChange;
 import simplediff.gumtree.core.actions.model.ModifierChange;
 import simplediff.gumtree.core.actions.model.Move;
 import simplediff.gumtree.core.actions.model.PackageChange;
+import simplediff.gumtree.core.actions.model.TypeDeclarationChange;
 import simplediff.gumtree.core.actions.model.Update;
 import simplediff.gumtree.core.matchers.MappingStore;
 import simplediff.gumtree.core.tree.FakeTree;
@@ -45,16 +48,22 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
       ITree y = x.getParent();
       ITree z = cpyMappings.getSrcForDst(y);
 
-      //      if (x.getType().name.equals("TypeDeclaration")
-      //          && !x.getParent().getType().name.equals("CompilationUnit")) {
-      //        System.out.println(x.getChildren());
-      //      }
-
       /* Insertion of elements */
       if (!cpyMappings.isDstMapped(x)) {
 
         if (isPackageDeclaration(x)) {
           changeList.add(PackageChange.createInsertPackageChange(x.getChild(0).getLabel()));
+        } else if (isSimpleName(x) && (isTypeDeclaration(y) || isEnumDeclaration(y))) {
+          if (isTypeDeclaration(y)){
+            changeList.add(TypeDeclarationChange.createInsertTypeDeclarationChange(
+                y.getChildren().stream().filter(p -> p.getType().name.equals("TYPE_DECLARATION_KIND")).collect(Collectors.toList()).get(0).getLabel() + " " +
+                    x.getLabel(),
+                y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel() ));
+          } else {
+            changeList.add(TypeDeclarationChange.createInsertTypeDeclarationChange(
+                y.getType().name + " " + x.getLabel(),
+                y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel() ));
+          }
         } else if (isImportDeclaration(x)) {
           changeList.add(ImportChange.createInsertImportChange(x.getChild(0).getLabel()));
         } else if (isSimpleName(x) && isMethodDeclaration(y)) {
@@ -64,6 +73,22 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                   x.getLabel(),
                   parent.get(0).getLabel(),
                   parent.get(1).getLabel(),
+                  -1,
+                  -1,
+                  y.getPos(),
+                  y.getLength()));
+        } else if (isJavaDoc(x)) {
+          changeList.add(JavadocChange.createInsertJavadocChange(y.getType().name + " " +
+              y.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
+              -1, -1, x.getPos(), x.getLength() + y.getLength()));
+        } else if (isFieldDeclaration(x)) {
+          //TODO change this to global field declaration
+          changeList.add(
+              FieldDeclarationChange.createInsertFieldChange(
+                  x.getChildren().stream().filter(p -> p.getType().name.equals("VariableDeclarationFragment"))
+                  .collect(Collectors.toList()).get(0).getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
+                  y.getType().name,
+                  y.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
                   -1,
                   -1,
                   y.getPos(),
@@ -78,7 +103,7 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
             } else {
               List<ITree> parent =
                   y.getChildren().stream()
-                      .filter(p -> isSimpleName(p))
+                      .filter(this::isSimpleName)
                       .collect(Collectors.toList());
 
               List<String> modifierNames = getModifierNames(getModifiers(y));
@@ -112,6 +137,46 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
           changeList.add(
               PackageChange.createUpdatePackageChange(
                   x.getChild(0).getLabel(), copyToOrig.get(w).getChild(0).getLabel()));
+        }
+
+        if (isSimpleName(x) && (isTypeDeclaration(y) || isEnumDeclaration(y))) {
+          String srcType = "";
+          if (copyToOrig.get(w).getParent().getType().name.equals("TypeDeclaration")){
+            srcType = copyToOrig.get(w).getParent().getChildren().stream().filter(p -> p.getType().name.equals("TYPE_DECLARATION_KIND")).collect(Collectors.toList()).get(0).getLabel();
+          } else {
+            srcType = copyToOrig.get(w).getType().name;
+          }
+
+
+          if (isTypeDeclaration(y)){
+            changeList.add(TypeDeclarationChange.createUpdateTypeDeclarationChange(srcType + " " + copyToOrig.get(w).getLabel(),
+                y.getChildren().stream().filter(p -> p.getType().name.equals("TYPE_DECLARATION_KIND")).collect(Collectors.toList()).get(0).getLabel() + " " +
+                    x.getLabel(),
+                y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel() ));
+          } else {
+            changeList.add(TypeDeclarationChange.createUpdateTypeDeclarationChange(srcType + " " + copyToOrig.get(w).getLabel(),
+                y.getType().name + " " + x.getLabel(),
+                y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel() ));
+          }
+        }
+
+        if (isJavaDoc(x)) { changeList.add(JavadocChange.createInsertJavadocChange(y.getType().name + " " +
+              y.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
+              x.getPos(), x.getLength(), copyToOrig.get(w).getPos(), copyToOrig.get(w).getLength()));
+          }
+        if (isFieldDeclaration(x)) {
+          changeList.add(
+              FieldDeclarationChange.createUpdateFieldChange(
+                  copyToOrig.get(w).getChildren().stream().filter(p -> p.getType().name.equals("VariableDeclarationFragment"))
+                  .collect(Collectors.toList()).get(0).getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
+                  x.getChildren().stream().filter(p -> p.getType().name.equals("VariableDeclarationFragment"))
+                      .collect(Collectors.toList()).get(0).getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
+                  y.getType().name,
+                  y.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
+                  copyToOrig.get(w).getPos(),
+                  copyToOrig.get(w).getLength(),
+                  x.getPos(),
+                  x.getLength()));
         }
 
         if (x.getType().name.equals("QualifiedName")
@@ -154,7 +219,7 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
               } else {
                 List<ITree> parent =
                     v.getChildren().stream()
-                        .filter(p -> isSimpleName(p))
+                        .filter(this::isSimpleName)
                         .collect(Collectors.toList());
                 List<String> modifierNames = getModifierNames(getModifiers(v));
                 String name = getEnclosingType(v);
@@ -198,6 +263,17 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
 
         if (isPackageDeclaration(w)) {
           changeList.add(PackageChange.createDeletePackageChange(w.getChild(0).getLabel()));
+        } else if (isSimpleName(w) && (isTypeDeclaration(v) || isEnumDeclaration(v))) {
+          if (isTypeDeclaration(v)){
+            changeList.add(TypeDeclarationChange.createDeleteTypeDeclarationChange(
+                v.getChildren().stream().filter(p -> p.getType().name.equals("TYPE_DECLARATION_KIND")).collect(Collectors.toList()).get(0).getLabel() + " " +
+                    w.getLabel(),
+                v.getParent().getLabel().equals("") ? v.getParent().getType().name : v.getParent().getLabel() ));
+          } else {
+            changeList.add(TypeDeclarationChange.createDeleteTypeDeclarationChange(
+                v.getType().name + " " + w.getLabel(),
+                v.getParent().getLabel().equals("") ? v.getParent().getType().name : v.getParent().getLabel() ));
+          }
         } else if (isImportDeclaration(w)) {
           changeList.add(ImportChange.createDeleteImportChange(w.getChild(0).getLabel()));
         } else if (isSimpleName(w) && isMethodDeclaration(v)) {
@@ -207,6 +283,21 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                   w.getLabel(),
                   parent.get(0).getLabel(),
                   parent.get(1).getLabel(),
+                  v.getPos(),
+                  v.getLength(),
+                  -1,
+                  -1));
+        } else if (isJavaDoc(w)) {
+          changeList.add(JavadocChange.createDeleteJavadocChange(v.getType().name + " " +
+              w.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
+              w.getPos(), w.getPos() + w.getLength(), -1, -1));
+        } else if (isFieldDeclaration(w)) {
+          //TODO change this to global field declaration
+          changeList.add(
+              FieldDeclarationChange.createDeleteFieldChange(
+                  w.getLabel(),
+                  v.getType().name,
+                  v.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
                   v.getPos(),
                   v.getLength(),
                   -1,
