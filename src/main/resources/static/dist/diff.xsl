@@ -102,7 +102,16 @@
                                         <xsl:attribute name="aria-controls">
                                             <xsl:value-of select="concat('#change-pkg-', position())"/>
                                         </xsl:attribute>
-                                        Package Declaration Changes
+                                        <xsl:text>Package Declaration Changes</xsl:text>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-pkg-removals"/>
+                                        </span>
+                                        <span class="badge badge-dark">
+                                            <xsl:value-of select="change-pkg-updates"/>
+                                        </span>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-pkg-additions"/>
+                                        </span>
                                     </button>
 
                                     <!-- Package declaration collapsible diff -->
@@ -118,13 +127,16 @@
                                             <xsl:attribute name="class">
                                                 <xsl:text>card card-body</xsl:text>
                                             </xsl:attribute>
-                                            <xsl:value-of select="change-pkg"/>
+                                            <xsl:if test="change-pkg!=''">
+                                                <div>
+                                                    <xsl:value-of select="change-pkg"/>
+                                                </div>
+                                            </xsl:if>
+
                                         </div>
                                     </div>
 
                                 </div> <!-- End change section -->
-
-
 
                                 <div>
                                     <xsl:attribute name="class">
@@ -150,7 +162,16 @@
                                         <xsl:attribute name="aria-controls">
                                             <xsl:value-of select="concat('#change-import-', position())"/>
                                         </xsl:attribute>
-                                        Import Declaration Changes
+                                        <xsl:text>Import Declaration Changes</xsl:text>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-import-removals"/>
+                                        </span>
+                                        <span class="badge badge-dark">
+                                            <xsl:value-of select="change-import-updates"/>
+                                        </span>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-import-additions"/>
+                                        </span>
                                     </button>
 
                                     <!-- Import declaration collapsible diff -->
@@ -166,9 +187,9 @@
                                             <xsl:attribute name="class">
                                                 <xsl:text>card card-body</xsl:text>
                                             </xsl:attribute>
-                                            <xsl:for-each select="change-import/change">
+                                            <xsl:for-each select="change-import">
                                                 <div>
-                                                    <xsl:value-of select="change-text"/>
+                                                    <xsl:value-of select="change/change-text"/>
                                                 </div>
                                             </xsl:for-each>
                                         </div>
@@ -201,7 +222,16 @@
                                         <xsl:attribute name="aria-controls">
                                             <xsl:value-of select="concat('#change-type-declaration-', position())"/>
                                         </xsl:attribute>
-                                        Type (Class, Enum) Declaration Changes
+                                        <xsl:text>Type (Class, Enum) Declaration Changes</xsl:text>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-type-declaration-removals"/>
+                                        </span>
+                                        <span class="badge badge-dark">
+                                            <xsl:value-of select="change-type-declaration-updates"/>
+                                        </span>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-type-declaration-additions"/>
+                                        </span>
                                     </button>
 
                                     <!-- Import declaration collapsible diff -->
@@ -250,7 +280,16 @@
                                         <xsl:attribute name="aria-controls">
                                             <xsl:value-of select="concat('#change-method-reorder-', position())"/>
                                         </xsl:attribute>
-                                        Method Ordering Structure Changes
+                                        <xsl:text>Method Ordering Structure Changes</xsl:text>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-method-reorder-removals"/>
+                                        </span>
+                                        <span class="badge badge-dark">
+                                            <xsl:value-of select="change-method-reorder-updates"/>
+                                        </span>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-method-reorder-additions"/>
+                                        </span>
                                     </button>
 
                                     <!-- Method Reorder collapsible diff -->
@@ -299,7 +338,16 @@
                                         <xsl:attribute name="aria-controls">
                                             <xsl:text>collapseExample</xsl:text>
                                         </xsl:attribute>
-                                        Javadoc Documentation Changes
+                                        <xsl:text>Javadoc Documentation Changes </xsl:text>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-javadoc-removals"/>
+                                        </span>
+                                        <span class="badge badge-dark">
+                                            <xsl:value-of select="change-javadoc-updates"/>
+                                        </span>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-javadoc-additions"/>
+                                        </span>
                                     </button>
 
                                     <!-- Modifier declaration collapsible diff -->
@@ -379,7 +427,16 @@
                                         <xsl:attribute name="aria-controls">
                                             <xsl:text>collapseExample</xsl:text>
                                         </xsl:attribute>
-                                        Modifier Changes
+                                        <xsl:text>Modifier Changes </xsl:text>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-modifier-removals"/>
+                                        </span>
+                                        <span class="badge badge-dark">
+                                            <xsl:value-of select="change-modifier-updates"/>
+                                        </span>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-modifier-additions"/>
+                                        </span>
                                     </button>
 
                                     <!-- Modifier declaration collapsible diff -->
@@ -400,20 +457,33 @@
                                                     <xsl:value-of select="change-text"/>
                                                 </div>
                                                 <div>
-                                                    <pre>
+                                                    <xsl:attribute name="class">
+                                                        <xsl:text>row</xsl:text>
+                                                    </xsl:attribute>
+                                                    <xsl:if test="change-src!=''">
+                                                        <div>
+                                                            <xsl:attribute name="class">
+                                                                <xsl:text>col-6</xsl:text>
+                                                            </xsl:attribute>
+                                                            <pre>
+                                                                <xsl:attribute name="class">
+                                                                    <xsl:text>prettyprint</xsl:text>
+                                                                </xsl:attribute>
+                                                                <xsl:value-of select="change-src"/>
+                                                            </pre>
+                                                        </div>
+                                                    </xsl:if>
+                                                    <div>
                                                         <xsl:attribute name="class">
-                                                            <xsl:text>prettyprint</xsl:text>
+                                                            <xsl:text>col-6</xsl:text>
                                                         </xsl:attribute>
-                                                        <xsl:value-of select="change-src"/>
-                                                    </pre>
-                                                </div>
-                                                <div>
-                                                    <pre>
-                                                        <xsl:attribute name="class">
-                                                            <xsl:text>prettyprint</xsl:text>
-                                                        </xsl:attribute>
-                                                        <xsl:value-of select="change-dst"/>
-                                                    </pre>
+                                                        <pre>
+                                                            <xsl:attribute name="class">
+                                                                <xsl:text>prettyprint</xsl:text>
+                                                            </xsl:attribute>
+                                                            <xsl:value-of select="change-dst"/>
+                                                        </pre>
+                                                    </div>
                                                 </div>
                                             </xsl:for-each>
                                         </div>
@@ -445,7 +515,16 @@
                                         <xsl:attribute name="aria-controls">
                                             <xsl:value-of select="concat('#change-method-', position())"/>
                                         </xsl:attribute>
-                                        Method Declaration Changes
+                                        <xsl:text>Method Declaration Changes </xsl:text>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-method-removals"/>
+                                        </span>
+                                        <span class="badge badge-dark">
+                                            <xsl:value-of select="change-method-updates"/>
+                                        </span>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-method-additions"/>
+                                        </span>
                                     </button>
 
                                     <!-- Method declaration collapsible diff -->
@@ -523,7 +602,16 @@
                                         <xsl:attribute name="aria-controls">
                                             <xsl:value-of select="concat('#change-field-declaration-', position())"/>
                                         </xsl:attribute>
-                                        Class-level Field Declaration Changes
+                                        <xsl:text>Class-level Field Declaration Changes</xsl:text>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-field-declaration-removals"/>
+                                        </span>
+                                        <span class="badge badge-dark">
+                                            <xsl:value-of select="change-field-declaration-updates"/>
+                                        </span>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-field-declaration-additions"/>
+                                        </span>
                                     </button>
 
                                     <!-- Field declaration collapsible diff -->

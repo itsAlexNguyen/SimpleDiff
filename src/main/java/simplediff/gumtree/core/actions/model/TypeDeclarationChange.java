@@ -1,8 +1,18 @@
 package simplediff.gumtree.core.actions.model;
 
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class TypeDeclarationChange extends Change {
+
+  public static Map<String, Integer> changeCounter = new Hashtable<String, Integer>();
+
+  static {
+    changeCounter.put("Additions", 0);
+    changeCounter.put("Updates", 0);
+    changeCounter.put("Removals", 0);
+  }
 
   /**
    * Constructor for Change objects.
@@ -15,7 +25,11 @@ public class TypeDeclarationChange extends Change {
   }
 
   public static TypeDeclarationChange createInsertTypeDeclarationChange(
-      final String typeName, final String enclosingScope) {
+      final String typeName, final String enclosingScope,
+      boolean update) {
+    if(update) {
+      changeCounter.put("Additions", changeCounter.get("Additions") + 1);
+    }
     final String insertPlaceholder = "%s added in scope %s";
     return new TypeDeclarationChange(
         String.format(
@@ -27,7 +41,11 @@ public class TypeDeclarationChange extends Change {
   }
 
   public static TypeDeclarationChange createDeleteTypeDeclarationChange(
-      final String typeName, final String enclosingScope) {
+      final String typeName, final String enclosingScope,
+      boolean update) {
+    if(update) {
+      changeCounter.put("Removals", changeCounter.get("Removals") + 1);
+    }
     final String deletePlaceholder = "%s removed from scope %s";
     return new TypeDeclarationChange(
         String.format(
@@ -39,7 +57,11 @@ public class TypeDeclarationChange extends Change {
   }
 
   public static TypeDeclarationChange createUpdateTypeDeclarationChange(
-      final String typeName, final String newTypeName, final String enclosingScope) {
+      final String typeName, final String newTypeName, final String enclosingScope,
+      boolean update) {
+    if(update) {
+      changeCounter.put("Updates", changeCounter.get("Updates") + 1);
+    }
     final String updatePlaceholder = "%s changed to %s in scope %s";
     return new TypeDeclarationChange(
         String.format(
@@ -50,5 +72,11 @@ public class TypeDeclarationChange extends Change {
                 + newTypeName.substring(1).replaceAll("(?i)" + Pattern.quote("declaration"), ""),
             (enclosingScope.equals("CompilationUnit") ? "Source file" : enclosingScope)),
         13);
+  }
+
+  public static void reset(){
+    changeCounter.put("Additions", 0);
+    changeCounter.put("Updates", 0);
+    changeCounter.put("Removals", 0);
   }
 }

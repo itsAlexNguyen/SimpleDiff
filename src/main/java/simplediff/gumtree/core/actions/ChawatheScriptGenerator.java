@@ -122,9 +122,9 @@ public class ChawatheScriptGenerator implements EditScriptGenerator {
       if (!cpyMappings.isDstMapped(x)) {
 
         if (isPackageDeclaration(x)) {
-          changeList.add(PackageChange.createInsertPackageChange(x.getChild(0).getLabel()));
+          changeList.add(PackageChange.createInsertPackageChange(x.getChild(0).getLabel(), false));
         } else if (isImportDeclaration(x)) {
-          changeList.add(ImportChange.createInsertImportChange(x.getChild(0).getLabel()));
+          changeList.add(ImportChange.createInsertImportChange(x.getChild(0).getLabel(), false));
         } else if (isSimpleName(x) && isMethodDeclaration(y)) {
           List<ITree> parent = getMethodParentBlock(y);
           changeList.add(
@@ -135,14 +135,14 @@ public class ChawatheScriptGenerator implements EditScriptGenerator {
                   -1,
                   -1,
                   x.getPos(),
-                  x.getLength()));
+                  x.getLength(), false));
         } else if (isModifier(x) && !cpyMappings.getSrcForDst(y).getType().name.equals("")) {
           if (!modifierList.containsKey(y)) {
             if (isFieldDeclaration(y)) {
               List<String> modifierNames = getModifierNames(getModifiers(y));
               changeList.add(
                   ModifierChange.createModifierChange(
-                      modifierNames, y.getLabel(), "", -1, -1, y.getPos(), y.getLength()));
+                      modifierNames, y.getLabel(), "", -1, -1, y.getPos(), y.getLength(), false));
             } else {
               List<ITree> parent =
                   y.getChildren().stream()
@@ -160,7 +160,7 @@ public class ChawatheScriptGenerator implements EditScriptGenerator {
                       -1,
                       -1,
                       y.getPos(),
-                      y.getLength()));
+                      y.getLength(), false));
             }
             modifierList.put(y, cpyMappings.getSrcForDst(y));
           }
@@ -183,14 +183,14 @@ public class ChawatheScriptGenerator implements EditScriptGenerator {
         if (isPackageDeclaration(x)) {
           changeList.add(
               PackageChange.createUpdatePackageChange(
-                  x.getChild(0).getLabel(), copyToOrig.get(w).getChild(0).getLabel()));
+                  x.getChild(0).getLabel(), copyToOrig.get(w).getChild(0).getLabel(), false));
         }
 
         if (x.getType().name.equals("QualifiedName")
             && isImportDeclaration(y)
             && !cpyMappings.getSrcForDst(x).getLabel().equals(x.getLabel())) {
-          changeList.add(ImportChange.createDeleteImportChange(w.getLabel()));
-          changeList.add(ImportChange.createInsertImportChange(x.getLabel()));
+          changeList.add(ImportChange.createDeleteImportChange(w.getLabel(), false));
+          changeList.add(ImportChange.createInsertImportChange(x.getLabel(), false));
         }
 
         if (isSimpleName(x) && isMethodDeclaration(y) && !w.getLabel().equals(x.getLabel())) {
@@ -204,7 +204,7 @@ public class ChawatheScriptGenerator implements EditScriptGenerator {
                   copyToOrig.get(w).getPos(),
                   copyToOrig.get(w).getLength(),
                   x.getPos(),
-                  x.getLength()));
+                  x.getLength(), false));
         }
 
         if (isModifier(x)) {
@@ -222,7 +222,7 @@ public class ChawatheScriptGenerator implements EditScriptGenerator {
                         y.getPos(),
                         y.getLength(),
                         w.getParent().getPos(),
-                        w.getParent().getLength()));
+                        w.getParent().getLength(), false));
               } else {
                 List<ITree> parent =
                     v.getChildren().stream()
@@ -238,7 +238,7 @@ public class ChawatheScriptGenerator implements EditScriptGenerator {
                         y.getPos(),
                         y.getLength(),
                         w.getParent().getPos(),
-                        w.getParent().getLength()));
+                        w.getParent().getLength(),false));
               }
             }
           }
@@ -272,9 +272,9 @@ public class ChawatheScriptGenerator implements EditScriptGenerator {
         final ITree v = w.getParent();
 
         if (isPackageDeclaration(w)) {
-          changeList.add(PackageChange.createDeletePackageChange(w.getChild(0).getLabel()));
+          changeList.add(PackageChange.createDeletePackageChange(w.getChild(0).getLabel(), false));
         } else if (isImportDeclaration(w)) {
-          changeList.add(ImportChange.createDeleteImportChange(w.getChild(0).getLabel()));
+          changeList.add(ImportChange.createDeleteImportChange(w.getChild(0).getLabel(), false));
         } else if (isSimpleName(w) && isMethodDeclaration(v)) {
           List<ITree> parent = getMethodParentBlock(v);
           changeList.add(
@@ -285,20 +285,20 @@ public class ChawatheScriptGenerator implements EditScriptGenerator {
                   v.getPos(),
                   v.getLength(),
                   -1,
-                  -1));
+                  -1, false));
         } else if (isModifier(w)) {
           if (!modifierList.containsKey(v) && cpyMappings.isSrcMapped(v)) {
             if (isFieldDeclaration(v)) {
               List<String> modifierNames = getModifierNames(getModifiers(v));
               changeList.add(
                   ModifierChange.createModifierChange(
-                      modifierNames, v.getType().name, "", v.getPos(), v.getLength(), -1, -1));
+                      modifierNames, v.getType().name, "", v.getPos(), v.getLength(), -1, -1, false));
             } else {
               List<String> modifierNames = getModifierNames(getModifiers(v));
               String name = getEnclosingType(v);
               changeList.add(
                   ModifierChange.createModifierChange(
-                      modifierNames, name, getEnclosingName(v), v.getPos(), v.getLength(), -1, -1));
+                      modifierNames, name, getEnclosingName(v), v.getPos(), v.getLength(), -1, -1, false));
             }
             modifierList.put(w.getParent(), cpyMappings.getSrcForDst(w.getParent()));
           }

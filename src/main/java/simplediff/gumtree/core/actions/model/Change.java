@@ -1,5 +1,8 @@
 package simplediff.gumtree.core.actions.model;
 
+import java.util.Hashtable;
+import java.util.Map;
+
 /** Represents a single diff. */
 public class Change implements Comparable<Change> {
 
