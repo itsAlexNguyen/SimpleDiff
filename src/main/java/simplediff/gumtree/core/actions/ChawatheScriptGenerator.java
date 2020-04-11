@@ -370,6 +370,22 @@ public class ChawatheScriptGenerator implements EditScriptGenerator {
     return tree.getType().name.equals("PackageDeclaration");
   }
 
+  protected boolean isTypeDeclaration(ITree tree) {
+    return tree.getType().name.equals("TypeDeclaration");
+  }
+
+  protected boolean isEnumDeclaration(ITree tree) {
+    return tree.getType().name.equals("EnumDeclaration");
+  }
+
+  protected boolean isJavaDoc(ITree tree) {
+    return tree.getType().name.equals("Javadoc");
+  }
+
+  protected boolean isSimpleType(ITree tree) {
+    return tree.getType().name.equals("SimpleType");
+  }
+
   protected boolean isSimpleName(ITree tree) {
     return tree.getType().name.equals("SimpleName");
   }
