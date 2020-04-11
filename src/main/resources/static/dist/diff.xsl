@@ -103,14 +103,14 @@
                                             <xsl:value-of select="concat('#change-pkg-', position())"/>
                                         </xsl:attribute>
                                         <xsl:text>Package Declaration Changes</xsl:text>
-                                        <span class="badge badge-success">
-                                            <xsl:value-of select="change-pkg-additions"/>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-pkg-removals"/>
                                         </span>
                                         <span class="badge badge-dark">
                                             <xsl:value-of select="change-pkg-updates"/>
                                         </span>
-                                        <span class="badge badge-danger">
-                                            <xsl:value-of select="change-pkg-removals"/>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-pkg-additions"/>
                                         </span>
                                     </button>
 
@@ -132,8 +132,6 @@
                                     </div>
 
                                 </div> <!-- End change section -->
-
-
 
                                 <div>
                                     <xsl:attribute name="class">
@@ -160,14 +158,14 @@
                                             <xsl:value-of select="concat('#change-import-', position())"/>
                                         </xsl:attribute>
                                         <xsl:text>Import Declaration Changes</xsl:text>
-                                        <span class="badge badge-success">
-                                            <xsl:value-of select="change-import-declaration-additions"/>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-import-declaration-removals"/>
                                         </span>
                                         <span class="badge badge-dark">
                                             <xsl:value-of select="change-import-declaration-updates"/>
                                         </span>
-                                        <span class="badge badge-danger">
-                                            <xsl:value-of select="change-import-declaration-removals"/>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-import-declaration-additions"/>
                                         </span>
                                     </button>
 
@@ -220,14 +218,14 @@
                                             <xsl:value-of select="concat('#change-type-declaration-', position())"/>
                                         </xsl:attribute>
                                         <xsl:text>Type (Class, Enum) Declaration Changes</xsl:text>
-                                        <span class="badge badge-success">
-                                            <xsl:value-of select="change-type-declaration-additions"/>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-type-declaration-removals"/>
                                         </span>
                                         <span class="badge badge-dark">
                                             <xsl:value-of select="change-type-declaration-updates"/>
                                         </span>
-                                        <span class="badge badge-danger">
-                                            <xsl:value-of select="change-type-declaration-removals"/>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-type-declaration-additions"/>
                                         </span>
                                     </button>
 
@@ -278,14 +276,14 @@
                                             <xsl:value-of select="concat('#change-method-reorder-', position())"/>
                                         </xsl:attribute>
                                         <xsl:text>Method Ordering Structure Changes</xsl:text>
-                                        <span class="badge badge-success">
-                                            <xsl:value-of select="change-method-reorder-additions"/>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-method-reorder-removals"/>
                                         </span>
                                         <span class="badge badge-dark">
                                             <xsl:value-of select="change-method-reorder-updates"/>
                                         </span>
-                                        <span class="badge badge-danger">
-                                            <xsl:value-of select="change-method-reorder-removals"/>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-method-reorder-additions"/>
                                         </span>
                                     </button>
 
@@ -336,14 +334,14 @@
                                             <xsl:text>collapseExample</xsl:text>
                                         </xsl:attribute>
                                         <xsl:text>Javadoc Documentation Changes </xsl:text>
-                                        <span class="badge badge-success">
-                                            <xsl:value-of select="change-javadoc-additions"/>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-javadoc-removals"/>
                                         </span>
                                         <span class="badge badge-dark">
                                             <xsl:value-of select="change-javadoc-updates"/>
                                         </span>
-                                        <span class="badge badge-danger">
-                                            <xsl:value-of select="change-javadoc-removals"/>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-javadoc-additions"/>
                                         </span>
                                     </button>
 
@@ -425,14 +423,14 @@
                                             <xsl:text>collapseExample</xsl:text>
                                         </xsl:attribute>
                                         <xsl:text>Modifier Changes</xsl:text>
-                                        <span class="badge badge-success">
-                                            <xsl:value-of select="change-modifier-additions"/>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-modifier-removals"/>
                                         </span>
                                         <span class="badge badge-dark">
                                             <xsl:value-of select="change-modifier-updates"/>
                                         </span>
-                                        <span class="badge badge-danger">
-                                            <xsl:value-of select="change-modifier-removals"/>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-modifier-additions"/>
                                         </span>
                                     </button>
 
@@ -500,14 +498,14 @@
                                             <xsl:value-of select="concat('#change-method-', position())"/>
                                         </xsl:attribute>
                                         <xsl:text>Method Declaration Changes </xsl:text>
-                                        <span class="badge badge-success">
-                                            <xsl:value-of select="change-method-additions"/>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-method-removals"/>
                                         </span>
                                         <span class="badge badge-dark">
                                             <xsl:value-of select="change-method-updates"/>
                                         </span>
-                                        <span class="badge badge-danger">
-                                            <xsl:value-of select="change-method-removals"/>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-method-additions"/>
                                         </span>
                                     </button>
 
@@ -587,14 +585,14 @@
                                             <xsl:value-of select="concat('#change-field-declaration-', position())"/>
                                         </xsl:attribute>
                                         <xsl:text>Class-level Field Declaration Changes</xsl:text>
-                                        <span class="badge badge-success">
-                                            <xsl:value-of select="change-field-declaration-additions"/>
+                                        <span class="badge badge-danger">
+                                            <xsl:value-of select="change-field-declaration-removals"/>
                                         </span>
                                         <span class="badge badge-dark">
                                             <xsl:value-of select="change-field-declaration-updates"/>
                                         </span>
-                                        <span class="badge badge-danger">
-                                            <xsl:value-of select="change-field-declaration-removals"/>
+                                        <span class="badge badge-success">
+                                            <xsl:value-of select="change-field-declaration-additions"/>
                                         </span>
                                     </button>
 
