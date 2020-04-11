@@ -184,9 +184,9 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
           }
         }
 
-        if (isJavaDoc(x) && !w.getLabel().equals(x.getLabel())) { changeList.add(JavadocChange.createInsertJavadocChange(y.getType().name + " " +
+        if (isJavaDoc(x) && !w.getChildren().equals(x.getChildren())) { changeList.add(JavadocChange.createUpdateJavadocChange(y.getType().name + " " +
               y.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
-              x.getPos(), x.getLength(), copyToOrig.get(w).getPos(), copyToOrig.get(w).getLength()));
+              y.getParent().getPos(), y.getParent().getLength(), copyToOrig.get(w.getParent().getParent()).getPos(), copyToOrig.get(w.getParent().getParent()).getLength()));
           }
 
         if (isFieldDeclaration(x)) {
