@@ -28,7 +28,6 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
 
   public List<Change> generateChanges(MappingStore ms) {
     initWith(ms);
-
     ITree srcFakeRoot = new FakeTree(cpySrc);
     ITree dstFakeRoot = new FakeTree(origDst);
     cpySrc.setParent(srcFakeRoot);
@@ -158,7 +157,7 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                   x.getChild(0).getLabel(), copyToOrig.get(w).getChild(0).getLabel()));
         }
 
-        if (isSimpleName(x) && (isTypeDeclaration(y) || isEnumDeclaration(y))) {
+        if (isSimpleName(x) && ((isTypeDeclaration(y) || isEnumDeclaration(y)))) {
           String srcType = "";
           if (copyToOrig.get(w).getParent().getType().name.equals("TypeDeclaration")){
             srcType = copyToOrig.get(w).getParent().getChildren().stream().filter(p -> p.getType().name.equals("TYPE_DECLARATION_KIND")).collect(Collectors.toList()).get(0).getLabel();
@@ -185,10 +184,11 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
           }
         }
 
-        if (isJavaDoc(x)) { changeList.add(JavadocChange.createInsertJavadocChange(y.getType().name + " " +
+        if (isJavaDoc(x) && !w.getLabel().equals(x.getLabel())) { changeList.add(JavadocChange.createInsertJavadocChange(y.getType().name + " " +
               y.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
               x.getPos(), x.getLength(), copyToOrig.get(w).getPos(), copyToOrig.get(w).getLength()));
           }
+
         if (isFieldDeclaration(x)) {
           if (copyToOrig.get(w).getChildren().stream().filter(p -> p.getType().name.equals("VariableDeclarationFragment"))
               .collect(Collectors.toList()).get(0).getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel().equals(
@@ -197,7 +197,6 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
               )){
             continue;
           }
-
           changeList.add(
               FieldDeclarationChange.createUpdateFieldChange(
                   copyToOrig.get(w).getChildren().stream().filter(p -> p.getType().name.equals("VariableDeclarationFragment"))
