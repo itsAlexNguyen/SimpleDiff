@@ -1,8 +1,19 @@
 package simplediff.gumtree.core.actions.model;
 
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class FieldDeclarationChange extends SourceChange {
+
+  public static Map<String, Integer> changeCounter = new Hashtable<String, Integer>();
+
+  static {
+    changeCounter.put("Additions", 0);
+    changeCounter.put("Updates", 0);
+    changeCounter.put("Removals", 0);
+  }
+
 
   /**
    * Constructor for Change objects.
@@ -31,6 +42,7 @@ public class FieldDeclarationChange extends SourceChange {
       final int srcLength,
       final int dstStart,
       final int dstLength) {
+    changeCounter.put("Additions", changeCounter.get("Additions") + 1);
     final String placeHolder = "Field %s added to %s %s";
     return new FieldDeclarationChange(
         String.format(placeHolder, methodName, enclosingType.substring(0, 1).toUpperCase()
@@ -50,6 +62,7 @@ public class FieldDeclarationChange extends SourceChange {
       final int srcLength,
       final int dstStart,
       final int dstLength) {
+    changeCounter.put("Updates", changeCounter.get("Updates") + 1);
     final String placeHolder = "Field %s was updated to %s in %s %s";
     return new FieldDeclarationChange(
         String.format(placeHolder, srcMethodName, dstMethodName, enclosingType.substring(0, 1).toUpperCase()
@@ -68,6 +81,7 @@ public class FieldDeclarationChange extends SourceChange {
       final int srcLength,
       final int dstStart,
       final int dstLength) {
+    changeCounter.put("Removals", changeCounter.get("Removals") + 1);
     final String placeHolder = "Field %s removed from %s %s";
     return new FieldDeclarationChange(
         String.format(placeHolder, methodName, enclosingType.substring(0, 1).toUpperCase()
@@ -76,6 +90,12 @@ public class FieldDeclarationChange extends SourceChange {
         srcLength,
         dstStart,
         dstLength, 11);
+  }
+
+  public static void reset(){
+    changeCounter.put("Additions", 0);
+    changeCounter.put("Updates", 0);
+    changeCounter.put("Removals", 0);
   }
 
 }

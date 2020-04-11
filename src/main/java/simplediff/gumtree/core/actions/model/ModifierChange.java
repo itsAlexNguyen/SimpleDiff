@@ -1,8 +1,19 @@
 package simplediff.gumtree.core.actions.model;
 
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 public class ModifierChange extends SourceChange {
+
+  public static Map<String, Integer> changeCounter = new Hashtable<String, Integer>();
+
+  static {
+    changeCounter.put("Additions", 0);
+    changeCounter.put("Updates", 0);
+    changeCounter.put("Removals", 0);
+  }
+
 
   /**
    * Constructor for Change objects.
@@ -31,6 +42,7 @@ public class ModifierChange extends SourceChange {
       final int srcLength,
       final int dstStart,
       final int dstLength) {
+    changeCounter.put("Updates", changeCounter.get("Updates") + 1);
     final String placeHolder = "Modifiers of %s %s changed to %s";
     return new ModifierChange(
         String.format(
@@ -42,5 +54,11 @@ public class ModifierChange extends SourceChange {
         srcLength,
         dstStart,
         dstLength, 3);
+  }
+
+  public static void reset(){
+    changeCounter.put("Additions", 0);
+    changeCounter.put("Updates", 0);
+    changeCounter.put("Removals", 0);
   }
 }
