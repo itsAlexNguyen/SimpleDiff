@@ -241,32 +241,32 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
 
             if (!modifierList.containsKey(y)) {
               if (isFieldDeclaration(y)) {
-                List<String> modifierNames = getModifierNames(getModifiers(y));
+                List<String> modifierNames = getModifierNames(getModifiers(v));
                 changeList.add(
                     ModifierChange.createModifierChange(
                         modifierNames,
-                        y.getType().name,
+                        y.getLabel(),
                         "",
-                        y.getPos(),
-                        y.getLength(),
-                        w.getParent().getPos(),
-                        w.getParent().getLength(), true));
+                        x.getPos(),
+                        x.getLength(),
+                        v.getParent().getPos(),
+                        v.getParent().getLength(), true));
               } else {
                 List<ITree> parent =
                     v.getChildren().stream()
                         .filter(this::isSimpleName)
                         .collect(Collectors.toList());
-                List<String> modifierNames = getModifierNames(getModifiers(v));
+                List<String> modifierNames = getModifierNames(getModifiers(y));
                 String name = getEnclosingType(v);
                 changeList.add(
                     ModifierChange.createModifierChange(
                         modifierNames,
                         name,
-                        parent.get(0).getType().name,
-                        y.getPos(),
-                        y.getLength(),
-                        w.getParent().getPos(),
-                        w.getParent().getLength(), true));
+                        parent.get(0).getLabel(),
+                        v.getPos(),
+                        v.getLength(),
+                        x.getParent().getPos(),
+                        x.getParent().getLength(), true));
               }
             }
           }

@@ -427,7 +427,7 @@
                                         <xsl:attribute name="aria-controls">
                                             <xsl:text>collapseExample</xsl:text>
                                         </xsl:attribute>
-                                        <xsl:text>Modifier Changes</xsl:text>
+                                        <xsl:text>Modifier Changes </xsl:text>
                                         <span class="badge badge-danger">
                                             <xsl:value-of select="change-modifier-removals"/>
                                         </span>
@@ -457,20 +457,33 @@
                                                     <xsl:value-of select="change-text"/>
                                                 </div>
                                                 <div>
-                                                    <pre>
+                                                    <xsl:attribute name="class">
+                                                        <xsl:text>row</xsl:text>
+                                                    </xsl:attribute>
+                                                    <xsl:if test="change-src!=''">
+                                                        <div>
+                                                            <xsl:attribute name="class">
+                                                                <xsl:text>col-6</xsl:text>
+                                                            </xsl:attribute>
+                                                            <pre>
+                                                                <xsl:attribute name="class">
+                                                                    <xsl:text>prettyprint</xsl:text>
+                                                                </xsl:attribute>
+                                                                <xsl:value-of select="change-src"/>
+                                                            </pre>
+                                                        </div>
+                                                    </xsl:if>
+                                                    <div>
                                                         <xsl:attribute name="class">
-                                                            <xsl:text>prettyprint</xsl:text>
+                                                            <xsl:text>col-6</xsl:text>
                                                         </xsl:attribute>
-                                                        <xsl:value-of select="change-src"/>
-                                                    </pre>
-                                                </div>
-                                                <div>
-                                                    <pre>
-                                                        <xsl:attribute name="class">
-                                                            <xsl:text>prettyprint</xsl:text>
-                                                        </xsl:attribute>
-                                                        <xsl:value-of select="change-dst"/>
-                                                    </pre>
+                                                        <pre>
+                                                            <xsl:attribute name="class">
+                                                                <xsl:text>prettyprint</xsl:text>
+                                                            </xsl:attribute>
+                                                            <xsl:value-of select="change-dst"/>
+                                                        </pre>
+                                                    </div>
                                                 </div>
                                             </xsl:for-each>
                                         </div>

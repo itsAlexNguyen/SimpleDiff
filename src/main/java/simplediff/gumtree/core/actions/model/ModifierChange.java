@@ -3,6 +3,7 @@ package simplediff.gumtree.core.actions.model;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class ModifierChange extends SourceChange {
 
@@ -50,7 +51,8 @@ public class ModifierChange extends SourceChange {
     return new ModifierChange(
         String.format(
             placeHolder,
-            enclosingDeclaration,
+            enclosingDeclaration.substring(0, 1).toUpperCase()
+                + enclosingDeclaration.substring(1).replaceAll("(?i)" + Pattern.quote("declaration"), ""),
             enclosingDeclarationName,
             String.join(",", modifierList)),
         srcStart,
