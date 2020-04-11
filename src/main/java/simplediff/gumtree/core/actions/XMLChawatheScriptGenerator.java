@@ -13,6 +13,7 @@ import simplediff.gumtree.core.actions.model.ImportChange;
 import simplediff.gumtree.core.actions.model.Insert;
 import simplediff.gumtree.core.actions.model.JavadocChange;
 import simplediff.gumtree.core.actions.model.MethodChange;
+import simplediff.gumtree.core.actions.model.MethodReorderChange;
 import simplediff.gumtree.core.actions.model.ModifierChange;
 import simplediff.gumtree.core.actions.model.Move;
 import simplediff.gumtree.core.actions.model.PackageChange;
@@ -42,7 +43,26 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
 
     HashMap<ITree, ITree> modifierList = new HashMap<ITree, ITree>();
 
+    List<ITree> bfsSrc = TreeUtils.preOrder(origSrc);
     List<ITree> bfsDst = TreeUtils.preOrder(origDst);
+
+    List<String> srcMethods = new LinkedList<String>();
+    List<String> dstMethods = new LinkedList<String>();
+
+    for (ITree x : bfsSrc){
+      if (isMethodDeclaration(x))
+      srcMethods.add(x.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel());
+    }
+
+    for (ITree x : bfsDst){
+      if (isMethodDeclaration(x)){
+        String label = x.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel();
+        dstMethods.add(label);
+      }
+    }
+    srcMethods = srcMethods.stream().filter(dstMethods::contains).collect(Collectors.toList());
+    changeList.add(MethodReorderChange.createMethodReorderChange(srcMethods, dstMethods));
+
     for (ITree x : bfsDst) {
       ITree w = null;
       ITree y = x.getParent();
@@ -82,7 +102,6 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
               y.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
               -1, -1, x.getPos(), x.getLength() + y.getLength()));
         } else if (isFieldDeclaration(x)) {
-          //TODO change this to global field declaration
           changeList.add(
               FieldDeclarationChange.createInsertFieldChange(
                   x.getChildren().stream().filter(p -> p.getType().name.equals("VariableDeclarationFragment"))
@@ -149,11 +168,17 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
 
 
           if (isTypeDeclaration(y)){
+            if (srcType.equals(y.getChildren().stream().filter(p -> p.getType().name.equals("TYPE_DECLARATION_KIND")).collect(Collectors.toList()).get(0).getLabel()) && copyToOrig.get(w).getLabel().equals(x.getLabel())){
+              continue;
+            }
             changeList.add(TypeDeclarationChange.createUpdateTypeDeclarationChange(srcType + " " + copyToOrig.get(w).getLabel(),
                 y.getChildren().stream().filter(p -> p.getType().name.equals("TYPE_DECLARATION_KIND")).collect(Collectors.toList()).get(0).getLabel() + " " +
                     x.getLabel(),
                 y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel() ));
           } else {
+            if (srcType.equals(y.getType().name) && copyToOrig.get(w).getLabel().equals(x.getLabel())){
+              continue;
+            }
             changeList.add(TypeDeclarationChange.createUpdateTypeDeclarationChange(srcType + " " + copyToOrig.get(w).getLabel(),
                 y.getType().name + " " + x.getLabel(),
                 y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel() ));
@@ -165,6 +190,14 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
               x.getPos(), x.getLength(), copyToOrig.get(w).getPos(), copyToOrig.get(w).getLength()));
           }
         if (isFieldDeclaration(x)) {
+          if (copyToOrig.get(w).getChildren().stream().filter(p -> p.getType().name.equals("VariableDeclarationFragment"))
+              .collect(Collectors.toList()).get(0).getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel().equals(
+                  x.getChildren().stream().filter(p -> p.getType().name.equals("VariableDeclarationFragment"))
+                      .collect(Collectors.toList()).get(0).getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel()
+              )){
+            continue;
+          }
+
           changeList.add(
               FieldDeclarationChange.createUpdateFieldChange(
                   copyToOrig.get(w).getChildren().stream().filter(p -> p.getType().name.equals("VariableDeclarationFragment"))

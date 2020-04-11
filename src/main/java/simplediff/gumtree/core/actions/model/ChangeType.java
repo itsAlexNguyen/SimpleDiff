@@ -7,7 +7,8 @@ public enum ChangeType {
   METHOD("\t\t<change-method>\n", "\t\t</change-method>\n"),
   MODIFIER("\t\t<change-modifier>", "\t\t</change-modifier>\n"),
   FIELD_DECLARATION("\t\t<change-field-declaration>\n", "\t\t</change-field-declaration>\n"),
-  JAVADOC("\t\t<change-javadoc\n>", "\t\t</change-javadoc>\n");
+  JAVADOC("\t\t<change-javadoc\n>", "\t\t</change-javadoc>\n"),
+  METHOD_REORDER("\t\t<change-method-reorder>\n", "\t\t</change-method-reorder>\n");
 
   private final String openingTag;
   private final String closingTag;
