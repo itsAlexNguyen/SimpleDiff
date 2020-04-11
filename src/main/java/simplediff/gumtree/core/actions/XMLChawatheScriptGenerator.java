@@ -59,7 +59,8 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
         dstMethods.add(label);
       }
     }
-    srcMethods = srcMethods.stream().filter(dstMethods::contains).collect(Collectors.toList());
+    //what is this filtering
+    //srcMethods = srcMethods.stream().filter(dstMethods::contains).collect(Collectors.toList());
     if (!srcMethods.equals(dstMethods)){
       changeList.add(MethodReorderChange.createMethodReorderChange(srcMethods, dstMethods));
     }
@@ -86,7 +87,7 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                 y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel() ));
           }
         } else if (isImportDeclaration(x)) {
-          changeList.add(ImportChange.createInsertImportChange(x.getChild(0).getLabel()));
+          changeList.add(ImportChange.createInsertImportChange(x.getChild(0).getLabel(), true));
         } else if (isSimpleName(x) && isMethodDeclaration(y)) {
           List<ITree> parent = getMethodParentBlock(y);
           changeList.add(
@@ -216,8 +217,8 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
         if (x.getType().name.equals("QualifiedName")
             && isImportDeclaration(y)
             && !cpyMappings.getSrcForDst(x).getLabel().equals(x.getLabel())) {
-          changeList.add(ImportChange.createDeleteImportChange(w.getLabel()));
-          changeList.add(ImportChange.createInsertImportChange(x.getLabel()));
+          changeList.add(ImportChange.createDeleteImportChange(w.getLabel(), true));
+          changeList.add(ImportChange.createInsertImportChange(x.getLabel(), true));
         }
 
         if (isSimpleName(x) && isMethodDeclaration(y) && !w.getLabel().equals(x.getLabel())) {
@@ -309,7 +310,7 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                 v.getParent().getLabel().equals("") ? v.getParent().getType().name : v.getParent().getLabel() ));
           }
         } else if (isImportDeclaration(w)) {
-          changeList.add(ImportChange.createDeleteImportChange(w.getChild(0).getLabel()));
+          changeList.add(ImportChange.createDeleteImportChange(w.getChild(0).getLabel(), true));
         } else if (isSimpleName(w) && isMethodDeclaration(v)) {
           List<ITree> parent = getMethodParentBlock(v);
           changeList.add(

@@ -127,7 +127,12 @@
                                             <xsl:attribute name="class">
                                                 <xsl:text>card card-body</xsl:text>
                                             </xsl:attribute>
-                                            <xsl:value-of select="change-pkg"/>
+                                            <xsl:if test="change-pkg!=''">
+                                                <div>
+                                                    <xsl:value-of select="change-pkg"/>
+                                                </div>
+                                            </xsl:if>
+
                                         </div>
                                     </div>
 
@@ -159,13 +164,13 @@
                                         </xsl:attribute>
                                         <xsl:text>Import Declaration Changes</xsl:text>
                                         <span class="badge badge-danger">
-                                            <xsl:value-of select="change-import-declaration-removals"/>
+                                            <xsl:value-of select="change-import-removals"/>
                                         </span>
                                         <span class="badge badge-dark">
-                                            <xsl:value-of select="change-import-declaration-updates"/>
+                                            <xsl:value-of select="change-import-updates"/>
                                         </span>
                                         <span class="badge badge-success">
-                                            <xsl:value-of select="change-import-declaration-additions"/>
+                                            <xsl:value-of select="change-import-additions"/>
                                         </span>
                                     </button>
 
@@ -182,9 +187,9 @@
                                             <xsl:attribute name="class">
                                                 <xsl:text>card card-body</xsl:text>
                                             </xsl:attribute>
-                                            <xsl:for-each select="change-import/change">
+                                            <xsl:for-each select="change-import">
                                                 <div>
-                                                    <xsl:value-of select="change-text"/>
+                                                    <xsl:value-of select="change/change-text"/>
                                                 </div>
                                             </xsl:for-each>
                                         </div>

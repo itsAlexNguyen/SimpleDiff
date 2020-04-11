@@ -19,14 +19,18 @@ public class ImportChange extends Change {
     this.changePriority = priority;
   }
 
-  public static ImportChange createInsertImportChange(String importName) {
-    changeCounter.put("Additions", changeCounter.get("Additions") + 1);
+  public static ImportChange createInsertImportChange(String importName, boolean update) {
+    if(update) {
+      changeCounter.put("Additions", changeCounter.get("Additions") + 1);
+    }
     final String insertPlaceholder = "Import %s added to file";
     return new ImportChange(String.format(insertPlaceholder, importName), 1);
   }
 
-  public static ImportChange createDeleteImportChange(String importName) {
-    changeCounter.put("Removals", changeCounter.get("Removals") + 1);
+  public static ImportChange createDeleteImportChange(String importName, boolean update) {
+    if(update) {
+      changeCounter.put("Removals", changeCounter.get("Removals") + 1);
+    }
     final String deletePlaceholder = "Import %s removed from file";
     return new ImportChange(String.format(deletePlaceholder, importName), 2);
   }

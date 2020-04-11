@@ -124,7 +124,7 @@ public class ChawatheScriptGenerator implements EditScriptGenerator {
         if (isPackageDeclaration(x)) {
           changeList.add(PackageChange.createInsertPackageChange(x.getChild(0).getLabel()));
         } else if (isImportDeclaration(x)) {
-          changeList.add(ImportChange.createInsertImportChange(x.getChild(0).getLabel()));
+          changeList.add(ImportChange.createInsertImportChange(x.getChild(0).getLabel(), false));
         } else if (isSimpleName(x) && isMethodDeclaration(y)) {
           List<ITree> parent = getMethodParentBlock(y);
           changeList.add(
@@ -189,8 +189,8 @@ public class ChawatheScriptGenerator implements EditScriptGenerator {
         if (x.getType().name.equals("QualifiedName")
             && isImportDeclaration(y)
             && !cpyMappings.getSrcForDst(x).getLabel().equals(x.getLabel())) {
-          changeList.add(ImportChange.createDeleteImportChange(w.getLabel()));
-          changeList.add(ImportChange.createInsertImportChange(x.getLabel()));
+          changeList.add(ImportChange.createDeleteImportChange(w.getLabel(), false));
+          changeList.add(ImportChange.createInsertImportChange(x.getLabel(), false));
         }
 
         if (isSimpleName(x) && isMethodDeclaration(y) && !w.getLabel().equals(x.getLabel())) {
@@ -274,7 +274,7 @@ public class ChawatheScriptGenerator implements EditScriptGenerator {
         if (isPackageDeclaration(w)) {
           changeList.add(PackageChange.createDeletePackageChange(w.getChild(0).getLabel()));
         } else if (isImportDeclaration(w)) {
-          changeList.add(ImportChange.createDeleteImportChange(w.getChild(0).getLabel()));
+          changeList.add(ImportChange.createDeleteImportChange(w.getChild(0).getLabel(), false));
         } else if (isSimpleName(w) && isMethodDeclaration(v)) {
           List<ITree> parent = getMethodParentBlock(v);
           changeList.add(
