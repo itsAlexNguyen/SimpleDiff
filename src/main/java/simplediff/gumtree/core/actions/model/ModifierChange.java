@@ -41,8 +41,11 @@ public class ModifierChange extends SourceChange {
       int srcStart,
       final int srcLength,
       final int dstStart,
-      final int dstLength) {
-    changeCounter.put("Updates", changeCounter.get("Updates") + 1);
+      final int dstLength,
+      boolean update) {
+    if(update) {
+      changeCounter.put("Updates", changeCounter.get("Updates") + 1);
+    }
     final String placeHolder = "Modifiers of %s %s changed to %s";
     return new ModifierChange(
         String.format(

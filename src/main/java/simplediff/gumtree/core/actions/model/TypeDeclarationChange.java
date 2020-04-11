@@ -25,8 +25,11 @@ public class TypeDeclarationChange extends Change {
   }
 
   public static TypeDeclarationChange createInsertTypeDeclarationChange(
-      final String typeName, final String enclosingScope) {
-    changeCounter.put("Additions", changeCounter.get("Additions") + 1);
+      final String typeName, final String enclosingScope,
+      boolean update) {
+    if(update) {
+      changeCounter.put("Additions", changeCounter.get("Additions") + 1);
+    }
     final String insertPlaceholder = "%s added in scope %s";
     return new TypeDeclarationChange(
         String.format(
@@ -38,8 +41,11 @@ public class TypeDeclarationChange extends Change {
   }
 
   public static TypeDeclarationChange createDeleteTypeDeclarationChange(
-      final String typeName, final String enclosingScope) {
-    changeCounter.put("Removals", changeCounter.get("Removals") + 1);
+      final String typeName, final String enclosingScope,
+      boolean update) {
+    if(update) {
+      changeCounter.put("Removals", changeCounter.get("Removals") + 1);
+    }
     final String deletePlaceholder = "%s removed from scope %s";
     return new TypeDeclarationChange(
         String.format(
@@ -51,8 +57,11 @@ public class TypeDeclarationChange extends Change {
   }
 
   public static TypeDeclarationChange createUpdateTypeDeclarationChange(
-      final String typeName, final String newTypeName, final String enclosingScope) {
-    changeCounter.put("Updates", changeCounter.get("Updates") + 1);
+      final String typeName, final String newTypeName, final String enclosingScope,
+      boolean update) {
+    if(update) {
+      changeCounter.put("Updates", changeCounter.get("Updates") + 1);
+    }
     final String updatePlaceholder = "%s changed to %s in scope %s";
     return new TypeDeclarationChange(
         String.format(

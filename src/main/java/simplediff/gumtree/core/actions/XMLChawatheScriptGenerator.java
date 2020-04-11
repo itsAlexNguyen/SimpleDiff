@@ -62,7 +62,7 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
     //what is this filtering
     //srcMethods = srcMethods.stream().filter(dstMethods::contains).collect(Collectors.toList());
     if (!srcMethods.equals(dstMethods)){
-      changeList.add(MethodReorderChange.createMethodReorderChange(srcMethods, dstMethods));
+      changeList.add(MethodReorderChange.createMethodReorderChange(srcMethods, dstMethods, true));
     }
 
     for (ITree x : bfsDst) {
@@ -74,17 +74,17 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
       if (!cpyMappings.isDstMapped(x)) {
 
         if (isPackageDeclaration(x)) {
-          changeList.add(PackageChange.createInsertPackageChange(x.getChild(0).getLabel()));
+          changeList.add(PackageChange.createInsertPackageChange(x.getChild(0).getLabel(), true));
         } else if (isSimpleName(x) && (isTypeDeclaration(y) || isEnumDeclaration(y))) {
           if (isTypeDeclaration(y)){
             changeList.add(TypeDeclarationChange.createInsertTypeDeclarationChange(
                 y.getChildren().stream().filter(p -> p.getType().name.equals("TYPE_DECLARATION_KIND")).collect(Collectors.toList()).get(0).getLabel() + " " +
                     x.getLabel(),
-                y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel() ));
+                y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel() , true));
           } else {
             changeList.add(TypeDeclarationChange.createInsertTypeDeclarationChange(
                 y.getType().name + " " + x.getLabel(),
-                y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel() ));
+                y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel(), true ));
           }
         } else if (isImportDeclaration(x)) {
           changeList.add(ImportChange.createInsertImportChange(x.getChild(0).getLabel(), true));
@@ -98,11 +98,11 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                   -1,
                   -1,
                   y.getPos(),
-                  y.getLength()));
+                  y.getLength(), true));
         } else if (isJavaDoc(x)) {
           changeList.add(JavadocChange.createInsertJavadocChange(y.getType().name + " " +
               y.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
-              -1, -1, x.getPos(), x.getLength() + y.getLength()));
+              -1, -1, x.getPos(), x.getLength() + y.getLength(), true));
         } else if (isFieldDeclaration(x)) {
           changeList.add(
               FieldDeclarationChange.createInsertFieldChange(
@@ -113,14 +113,14 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                   -1,
                   -1,
                   y.getPos(),
-                  y.getLength()));
+                  y.getLength(), true));
         } else if (isModifier(x) && !cpyMappings.getSrcForDst(y).getType().name.equals("")) {
           if (!modifierList.containsKey(y)) {
             if (isFieldDeclaration(y)) {
               List<String> modifierNames = getModifierNames(getModifiers(y));
               changeList.add(
                   ModifierChange.createModifierChange(
-                      modifierNames, y.getLabel(), "", -1, -1, y.getPos(), y.getLength()));
+                      modifierNames, y.getLabel(), "", -1, -1, y.getPos(), y.getLength(), true));
             } else {
               List<ITree> parent =
                   y.getChildren().stream()
@@ -138,7 +138,7 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                       -1,
                       -1,
                       y.getPos(),
-                      y.getLength()));
+                      y.getLength(), true));
             }
             modifierList.put(y, cpyMappings.getSrcForDst(y));
           }
@@ -157,7 +157,7 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
         if (isPackageDeclaration(x)) {
           changeList.add(
               PackageChange.createUpdatePackageChange(
-                  x.getChild(0).getLabel(), copyToOrig.get(w).getChild(0).getLabel()));
+                  x.getChild(0).getLabel(), copyToOrig.get(w).getChild(0).getLabel(), true));
         }
 
         if (isSimpleName(x) && ((isTypeDeclaration(y) || isEnumDeclaration(y)))) {
@@ -176,20 +176,20 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
             changeList.add(TypeDeclarationChange.createUpdateTypeDeclarationChange(srcType + " " + copyToOrig.get(w).getLabel(),
                 y.getChildren().stream().filter(p -> p.getType().name.equals("TYPE_DECLARATION_KIND")).collect(Collectors.toList()).get(0).getLabel() + " " +
                     x.getLabel(),
-                y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel() ));
+                y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel(), true ));
           } else {
             if (srcType.equals(y.getType().name) && copyToOrig.get(w).getLabel().equals(x.getLabel())){
               continue;
             }
             changeList.add(TypeDeclarationChange.createUpdateTypeDeclarationChange(srcType + " " + copyToOrig.get(w).getLabel(),
                 y.getType().name + " " + x.getLabel(),
-                y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel() ));
+                y.getParent().getLabel().equals("") ? y.getParent().getType().name : y.getParent().getLabel(), true ));
           }
         }
 
         if (isJavaDoc(x) && !w.getChildren().equals(x.getChildren())) { changeList.add(JavadocChange.createUpdateJavadocChange(y.getType().name + " " +
               y.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
-              y.getParent().getPos(), y.getParent().getLength(), copyToOrig.get(w.getParent().getParent()).getPos(), copyToOrig.get(w.getParent().getParent()).getLength()));
+              y.getParent().getPos(), y.getParent().getLength(), copyToOrig.get(w.getParent().getParent()).getPos(), copyToOrig.get(w.getParent().getParent()).getLength(), true));
           }
 
         if (isFieldDeclaration(x)) {
@@ -211,7 +211,7 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                   copyToOrig.get(w).getPos(),
                   copyToOrig.get(w).getLength(),
                   x.getPos(),
-                  x.getLength()));
+                  x.getLength(), true));
         }
 
         if (x.getType().name.equals("QualifiedName")
@@ -232,7 +232,7 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                   copyToOrig.get(w).getParent().getPos(),
                   copyToOrig.get(w).getParent().getLength(),
                   y.getPos(),
-                  y.getLength()));
+                  y.getLength(), true));
         }
 
         if (isModifier(x)) {
@@ -250,7 +250,7 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                         y.getPos(),
                         y.getLength(),
                         w.getParent().getPos(),
-                        w.getParent().getLength()));
+                        w.getParent().getLength(), true));
               } else {
                 List<ITree> parent =
                     v.getChildren().stream()
@@ -266,7 +266,7 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                         y.getPos(),
                         y.getLength(),
                         w.getParent().getPos(),
-                        w.getParent().getLength()));
+                        w.getParent().getLength(), true));
               }
             }
           }
@@ -297,17 +297,17 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
         final ITree v = w.getParent();
 
         if (isPackageDeclaration(w)) {
-          changeList.add(PackageChange.createDeletePackageChange(w.getChild(0).getLabel()));
+          changeList.add(PackageChange.createDeletePackageChange(w.getChild(0).getLabel(), true));
         } else if (isSimpleName(w) && (isTypeDeclaration(v) || isEnumDeclaration(v))) {
           if (isTypeDeclaration(v)){
             changeList.add(TypeDeclarationChange.createDeleteTypeDeclarationChange(
                 v.getChildren().stream().filter(p -> p.getType().name.equals("TYPE_DECLARATION_KIND")).collect(Collectors.toList()).get(0).getLabel() + " " +
                     w.getLabel(),
-                v.getParent().getLabel().equals("") ? v.getParent().getType().name : v.getParent().getLabel() ));
+                v.getParent().getLabel().equals("") ? v.getParent().getType().name : v.getParent().getLabel(), true ));
           } else {
             changeList.add(TypeDeclarationChange.createDeleteTypeDeclarationChange(
                 v.getType().name + " " + w.getLabel(),
-                v.getParent().getLabel().equals("") ? v.getParent().getType().name : v.getParent().getLabel() ));
+                v.getParent().getLabel().equals("") ? v.getParent().getType().name : v.getParent().getLabel(), true ));
           }
         } else if (isImportDeclaration(w)) {
           changeList.add(ImportChange.createDeleteImportChange(w.getChild(0).getLabel(), true));
@@ -321,11 +321,11 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                   v.getPos(),
                   v.getLength(),
                   -1,
-                  -1));
+                  -1, true));
         } else if (isJavaDoc(w)) {
           changeList.add(JavadocChange.createDeleteJavadocChange(v.getType().name + " " +
               w.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
-              w.getPos(), w.getPos() + w.getLength(), -1, -1));
+              w.getPos(), w.getPos() + w.getLength(), -1, -1, true));
         } else if (isFieldDeclaration(w)) {
           //TODO change this to global field declaration
           changeList.add(
@@ -336,20 +336,20 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                   v.getPos(),
                   v.getLength(),
                   -1,
-                  -1));
+                  -1, true));
         } else if (isModifier(w)) {
           if (!modifierList.containsKey(v) && cpyMappings.isSrcMapped(v)) {
             if (isFieldDeclaration(v)) {
               List<String> modifierNames = getModifierNames(getModifiers(v));
               changeList.add(
                   ModifierChange.createModifierChange(
-                      modifierNames, v.getType().name, "", v.getPos(), v.getLength(), -1, -1));
+                      modifierNames, v.getType().name, "", v.getPos(), v.getLength(), -1, -1, true));
             } else {
               List<String> modifierNames = getModifierNames(getModifiers(v));
               String name = getEnclosingType(v);
               changeList.add(
                   ModifierChange.createModifierChange(
-                      modifierNames, name, getEnclosingName(v), v.getPos(), v.getLength(), -1, -1));
+                      modifierNames, name, getEnclosingName(v), v.getPos(), v.getLength(), -1, -1, true));
             }
             modifierList.put(w.getParent(), cpyMappings.getSrcForDst(w.getParent()));
           }
