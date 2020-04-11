@@ -48,7 +48,7 @@
                             <!-- Collapse menu for file-->
                             <button>
                                 <xsl:attribute name="class">
-                                    <xsl:text>btn btn-secondary file-item text-left dropdown-toggle</xsl:text>
+                                    <xsl:text>btn btn-secondary file-item text-left dropdown-toggle collapsed</xsl:text>
                                 </xsl:attribute>
                                 <xsl:attribute name="type">
                                     <xsl:text>button</xsl:text>
@@ -85,7 +85,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -133,7 +133,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -177,6 +177,54 @@
                                 </div> <!-- End change section -->
 
 
+                                <div>
+                                    <xsl:attribute name="class">
+                                        <xsl:text>row change</xsl:text>
+                                    </xsl:attribute>
+
+                                    <button>
+                                        <xsl:attribute name="class">
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="type">
+                                            <xsl:text>button</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="data-toggle">
+                                            <xsl:text>collapse</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="data-target">
+                                            <xsl:value-of select="concat('#change-type-declaration-', position())"/>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="aria-expanded">
+                                            <xsl:text>false</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="aria-controls">
+                                            <xsl:value-of select="concat('#change-type-declaration-', position())"/>
+                                        </xsl:attribute>
+                                        Type (Class, Enum) Declaration Changes
+                                    </button>
+
+                                    <!-- Import declaration collapsible diff -->
+                                    <div>
+                                        <xsl:attribute name="class">
+                                            <xsl:text>collapse</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="id">
+                                            <xsl:value-of select="concat('change-type-declaration-', position())"/>
+                                        </xsl:attribute>
+
+                                        <div>
+                                            <xsl:attribute name="class">
+                                                <xsl:text>card card-body</xsl:text>
+                                            </xsl:attribute>
+                                            <xsl:for-each select="change-type-declaration/change">
+                                                <div>
+                                                    <xsl:value-of select="change-text"/>
+                                                </div>
+                                            </xsl:for-each>
+                                        </div>
+                                    </div>
+                                </div> <!-- End change section -->
 
                                 <div>
                                     <xsl:attribute name="class">
@@ -185,7 +233,136 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="type">
+                                            <xsl:text>button</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="data-toggle">
+                                            <xsl:text>collapse</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="data-target">
+                                            <xsl:value-of select="concat('#change-method-reorder-', position())"/>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="aria-expanded">
+                                            <xsl:text>false</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="aria-controls">
+                                            <xsl:value-of select="concat('#change-method-reorder-', position())"/>
+                                        </xsl:attribute>
+                                        Method Ordering Structure Changes
+                                    </button>
+
+                                    <!-- Method Reorder collapsible diff -->
+                                    <div>
+                                        <xsl:attribute name="class">
+                                            <xsl:text>collapse</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="id">
+                                            <xsl:value-of select="concat('change-method-reorder-', position())"/>
+                                        </xsl:attribute>
+
+                                        <div>
+                                            <xsl:attribute name="class">
+                                                <xsl:text>card card-body</xsl:text>
+                                            </xsl:attribute>
+                                            <xsl:for-each select="change-method-reorder/change">
+                                                <div>
+                                                    <xsl:value-of select="change-text" disable-output-escaping="yes"/>
+                                                </div>
+                                            </xsl:for-each>
+                                        </div>
+                                    </div>
+                                </div> <!-- End change section -->
+
+                                <div>
+                                    <xsl:attribute name="class">
+                                        <xsl:text>row change</xsl:text>
+                                    </xsl:attribute>
+
+                                    <button>
+                                        <xsl:attribute name="class">
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="type">
+                                            <xsl:text>button</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="data-toggle">
+                                            <xsl:text>collapse</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="data-target">
+                                            <xsl:value-of select="concat('#change-javadoc-', position())"/>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="aria-expanded">
+                                            <xsl:text>false</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="aria-controls">
+                                            <xsl:text>collapseExample</xsl:text>
+                                        </xsl:attribute>
+                                        Javadoc Documentation Changes
+                                    </button>
+
+                                    <!-- Modifier declaration collapsible diff -->
+                                    <div>
+                                        <xsl:attribute name="class">
+                                            <xsl:text>collapse</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="id">
+                                            <xsl:value-of select="concat('change-javadoc-', position())"/>
+                                        </xsl:attribute>
+
+                                        <div>
+                                            <xsl:attribute name="class">
+                                                <xsl:text>card card-body</xsl:text>
+                                            </xsl:attribute>
+                                            <xsl:for-each select="change-javadoc/change">
+                                                <div>
+                                                    <xsl:value-of select="change-text"/>
+                                                </div>
+                                                <div>
+                                                    <xsl:attribute name="class">
+                                                        <xsl:text>row</xsl:text>
+                                                    </xsl:attribute>
+                                                    <xsl:if test="change-src!=''">
+                                                        <div>
+                                                            <xsl:attribute name="class">
+                                                                <xsl:text>col-6</xsl:text>
+                                                            </xsl:attribute>
+                                                            <pre>
+                                                                <xsl:attribute name="class">
+                                                                    <xsl:text>prettyprint</xsl:text>
+                                                                </xsl:attribute>
+                                                                <xsl:value-of select="change-src"/>
+                                                            </pre>
+                                                        </div>
+                                                    </xsl:if>
+                                                    <div>
+                                                        <xsl:attribute name="class">
+                                                            <xsl:text>col-6</xsl:text>
+                                                        </xsl:attribute>
+                                                        <pre>
+                                                            <xsl:attribute name="class">
+                                                                <xsl:text>prettyprint</xsl:text>
+                                                            </xsl:attribute>
+                                                            <xsl:value-of select="change-dst"/>
+                                                        </pre>
+                                                    </div>
+                                                </div>
+                                            </xsl:for-each>
+                                        </div>
+                                    </div>
+
+                                </div> <!-- End change section -->
+
+
+                                <div>
+                                    <xsl:attribute name="class">
+                                        <xsl:text>row change</xsl:text>
+                                    </xsl:attribute>
+
+                                    <button>
+                                        <xsl:attribute name="class">
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -251,7 +428,7 @@
                                     </xsl:attribute>
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -292,17 +469,19 @@
                                                     <xsl:attribute name="class">
                                                         <xsl:text>row</xsl:text>
                                                     </xsl:attribute>
-                                                    <div>
-                                                        <xsl:attribute name="class">
-                                                            <xsl:text>col-6</xsl:text>
-                                                        </xsl:attribute>
-                                                        <pre>
+                                                    <xsl:if test="change-src!=''">
+                                                        <div>
                                                             <xsl:attribute name="class">
-                                                                <xsl:text>prettyprint</xsl:text>
+                                                                <xsl:text>col-6</xsl:text>
                                                             </xsl:attribute>
-                                                            <xsl:value-of select="change-src"/>
-                                                        </pre>
-                                                    </div>
+                                                            <pre>
+                                                                <xsl:attribute name="class">
+                                                                    <xsl:text>prettyprint</xsl:text>
+                                                                </xsl:attribute>
+                                                                <xsl:value-of select="change-src"/>
+                                                            </pre>
+                                                        </div>
+                                                    </xsl:if>
                                                     <div>
                                                         <xsl:attribute name="class">
                                                             <xsl:text>col-6</xsl:text>
@@ -321,7 +500,83 @@
 
                                 </div> <!-- End change section -->
 
+                                <div>
+                                    <xsl:attribute name="class">
+                                        <xsl:text>row change</xsl:text>
+                                    </xsl:attribute>
+                                    <button>
+                                        <xsl:attribute name="class">
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="type">
+                                            <xsl:text>button</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="data-toggle">
+                                            <xsl:text>collapse</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="data-target">
+                                            <xsl:value-of select="concat('#change-field-declaration-', position())"/>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="aria-expanded">
+                                            <xsl:text>false</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="aria-controls">
+                                            <xsl:value-of select="concat('#change-field-declaration-', position())"/>
+                                        </xsl:attribute>
+                                        Class-level Field Declaration Changes
+                                    </button>
 
+                                    <!-- Field declaration collapsible diff -->
+                                    <div>
+                                        <xsl:attribute name="class">
+                                            <xsl:text>collapse</xsl:text>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="id">
+                                            <xsl:value-of select="concat('change-field-declaration-', position())"/>
+                                        </xsl:attribute>
+
+                                        <div>
+                                            <xsl:attribute name="class">
+                                                <xsl:text>card card-body</xsl:text>
+                                            </xsl:attribute>
+                                            <xsl:for-each select="change-field-declaration/change">
+                                                <div>
+                                                    <xsl:value-of select="change-text"/>
+                                                </div>
+                                                <div>
+                                                    <xsl:attribute name="class">
+                                                        <xsl:text>row</xsl:text>
+                                                    </xsl:attribute>
+                                                    <xsl:if test="change-src!=''">
+                                                        <div>
+                                                            <xsl:attribute name="class">
+                                                                <xsl:text>col-6</xsl:text>
+                                                            </xsl:attribute>
+                                                            <pre>
+                                                                <xsl:attribute name="class">
+                                                                    <xsl:text>prettyprint</xsl:text>
+                                                                </xsl:attribute>
+                                                                <xsl:value-of select="change-src"/>
+                                                            </pre>
+                                                        </div>
+                                                    </xsl:if>
+                                                    <div>
+                                                        <xsl:attribute name="class">
+                                                            <xsl:text>col-6</xsl:text>
+                                                        </xsl:attribute>
+                                                        <pre>
+                                                            <xsl:attribute name="class">
+                                                                <xsl:text>prettyprint</xsl:text>
+                                                            </xsl:attribute>
+                                                            <xsl:value-of select="change-dst"/>
+                                                        </pre>
+                                                    </div>
+                                                </div>
+                                            </xsl:for-each>
+                                        </div>
+                                    </div>
+
+                                </div> <!-- End change section -->
 
                                 <div>
                                     <xsl:attribute name="class">
@@ -330,7 +585,7 @@
 
                                     <button>
                                         <xsl:attribute name="class">
-                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle</xsl:text>
+                                            <xsl:text>btn btn-secondary change-item text-left dropdown-toggle collapsed</xsl:text>
                                         </xsl:attribute>
                                         <xsl:attribute name="type">
                                             <xsl:text>button</xsl:text>
@@ -475,6 +730,27 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=java&amp;skin=desert"></script>
             <script type="text/javascript" src="/dist/diff.js"></script>
+            <script type="text/javascript">
+                $.each(document.getElementsByClassName("collapse"), function(index, item){
+                    if (item.children[0].childElementCount == 0){
+                        item.parentElement.style.visibility = 'hidden';
+                        item.parentElement.style.display = 'none';
+                    }
+                })
+                document.addEventListener('click', function (event) {
+                    if (event.target.classList.contains('collapsed')){
+                        var affectedElement = event.target.nextSibling;
+                        var innerOpenElements = affectedElement.getElementsByClassName("show");
+
+                        var len = innerOpenElements.length;
+                        for (var i = (len-1); i >= 0; i--) {
+                            innerOpenElements[i].previousSibling.classList.add('collapsed');
+                            innerOpenElements[i].classList.remove('show');
+                        }
+                    };
+                }, false);
+
+            </script>
         </html>
     </xsl:template>
 </xsl:stylesheet>
