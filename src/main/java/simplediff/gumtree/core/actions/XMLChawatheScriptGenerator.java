@@ -60,7 +60,9 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
       }
     }
     srcMethods = srcMethods.stream().filter(dstMethods::contains).collect(Collectors.toList());
-    changeList.add(MethodReorderChange.createMethodReorderChange(srcMethods, dstMethods));
+    if (!srcMethods.equals(dstMethods)){
+      changeList.add(MethodReorderChange.createMethodReorderChange(srcMethods, dstMethods));
+    }
 
     for (ITree x : bfsDst) {
       ITree w = null;

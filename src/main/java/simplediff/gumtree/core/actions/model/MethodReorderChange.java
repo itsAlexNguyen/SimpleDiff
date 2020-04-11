@@ -10,7 +10,9 @@ public class MethodReorderChange extends Change {
   }
 
   public static MethodReorderChange createMethodReorderChange(final List<String> initialOrder, final List<String> finalOrder){
-    final String insertPlaceholder = "Initial order &lt;ul&gt;&lt;li&gt;%s&lt;/li&gt;&lt;ul&gt;";
-    return new MethodReorderChange(String.format(insertPlaceholder, String.join("&lt;/li&gt;&lt;li&gt;", initialOrder)), 0);
+    final String insertPlaceholder =
+        "&lt;div class=\"row\"&gt;&lt;div class=\"col-6\"&gt; Initial order &lt;ul&gt;&lt;li&gt;%s&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;div class=\"col-6\"&gt;" +
+            "New order &lt;ul&gt;&lt;li&gt;%s&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;";
+    return new MethodReorderChange(String.format(insertPlaceholder, String.join("&lt;/li&gt;&lt;li&gt;", initialOrder), String.join("&lt;/li&gt;&lt;li&gt;", finalOrder)), 0);
   }
 }
