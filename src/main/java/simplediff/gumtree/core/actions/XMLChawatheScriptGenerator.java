@@ -154,7 +154,7 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
         /* Updating or moving of elements */
         w = cpyMappings.getSrcForDst(x);
 
-        if (isPackageDeclaration(x)) {
+        if (isPackageDeclaration(x) && !x.getLabel().equals(w.getLabel())) {
           changeList.add(
               PackageChange.createUpdatePackageChange(
                   x.getChild(0).getLabel(), copyToOrig.get(w).getChild(0).getLabel(), true));
@@ -323,9 +323,9 @@ public class XMLChawatheScriptGenerator extends ChawatheScriptGenerator {
                   -1,
                   -1, true));
         } else if (isJavaDoc(w)) {
-          changeList.add(JavadocChange.createDeleteJavadocChange(v.getType().name + " " +
-              w.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
-              w.getPos(), w.getPos() + w.getLength(), -1, -1, true));
+          //changeList.add(JavadocChange.createDeleteJavadocChange(v.getType().name + " " +
+           //   w.getChildren().stream().filter(p -> p.getType().name.equals("SimpleName")).collect(Collectors.toList()).get(0).getLabel(),
+            //  w.getPos(), w.getPos() + w.getLength(), -1, -1, true));
         } else if (isFieldDeclaration(w)) {
           //TODO change this to global field declaration
           changeList.add(
