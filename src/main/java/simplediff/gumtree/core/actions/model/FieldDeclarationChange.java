@@ -2,8 +2,9 @@ package simplediff.gumtree.core.actions.model;
 
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.regex.Pattern;
 
-public class MethodChange extends SourceChange {
+public class FieldDeclarationChange extends SourceChange {
 
   public static Map<String, Integer> changeCounter = new Hashtable<String, Integer>();
 
@@ -23,17 +24,17 @@ public class MethodChange extends SourceChange {
    * @param dstStart start position in destination file
    * @param dstLength end position in destination file
    */
-  private MethodChange(
+  private FieldDeclarationChange(
       final String changeText,
       final int srcStart,
       final int srcLength,
       final int dstStart,
       final int dstLength, final int priority) {
-    super(changeText, ChangeType.METHOD, srcStart, srcLength, dstStart, dstLength);
+    super(changeText, ChangeType.FIELD_DECLARATION, srcStart, srcLength, dstStart, dstLength);
     this.changePriority = priority;
   }
 
-  public static MethodChange createInsertMethodChange(
+  public static FieldDeclarationChange createInsertFieldChange(
       final String methodName,
       final String enclosingType,
       final String enclosingTypeName,
@@ -45,16 +46,17 @@ public class MethodChange extends SourceChange {
     if(update) {
       changeCounter.put("Additions", changeCounter.get("Additions") + 1);
     }
-    final String placeHolder = "Method %s added to %s %s";
-    return new MethodChange(
-        String.format(placeHolder, methodName, enclosingType, enclosingTypeName),
+    final String placeHolder = "Field %s added to %s %s";
+    return new FieldDeclarationChange(
+        String.format(placeHolder, methodName, enclosingType.substring(0, 1).toUpperCase()
+            + enclosingType.substring(1).replaceAll("(?i)" + Pattern.quote("declaration"), ""), enclosingTypeName),
         srcStart,
         srcLength,
         dstStart,
-        dstLength, 4);
+        dstLength, 9);
   }
 
-  public static MethodChange createUpdateMethodChange(
+  public static FieldDeclarationChange createUpdateFieldChange(
       final String srcMethodName,
       final String dstMethodName,
       final String enclosingType,
@@ -67,16 +69,17 @@ public class MethodChange extends SourceChange {
     if(update) {
       changeCounter.put("Updates", changeCounter.get("Updates") + 1);
     }
-    final String placeHolder = "Method %s was updated to %s in %s %s";
-    return new MethodChange(
-        String.format(placeHolder, srcMethodName, dstMethodName, enclosingType, enclosingTypeName),
+    final String placeHolder = "Field %s was updated to %s in %s %s";
+    return new FieldDeclarationChange(
+        String.format(placeHolder, srcMethodName, dstMethodName, enclosingType.substring(0, 1).toUpperCase()
+            + enclosingType.substring(1).replaceAll("(?i)" + Pattern.quote("declaration"), ""), enclosingTypeName),
         srcStart,
         srcLength,
         dstStart,
-        dstLength, 6);
+        dstLength, 10);
   }
 
-  public static MethodChange createDeleteMethodChange(
+  public static FieldDeclarationChange createDeleteFieldChange(
       final String methodName,
       final String enclosingType,
       final String enclosingTypeName,
@@ -88,13 +91,14 @@ public class MethodChange extends SourceChange {
     if(update) {
       changeCounter.put("Removals", changeCounter.get("Removals") + 1);
     }
-    final String placeHolder = "Method %s removed from %s %s";
-    return new MethodChange(
-        String.format(placeHolder, methodName, enclosingType, enclosingTypeName),
+    final String placeHolder = "Field %s removed from %s %s";
+    return new FieldDeclarationChange(
+        String.format(placeHolder, methodName, enclosingType.substring(0, 1).toUpperCase()
+            + enclosingType.substring(1).replaceAll("(?i)" + Pattern.quote("declaration"), ""), enclosingTypeName),
         srcStart,
         srcLength,
         dstStart,
-        dstLength, 5);
+        dstLength, 11);
   }
 
   public static void reset(){
@@ -102,4 +106,5 @@ public class MethodChange extends SourceChange {
     changeCounter.put("Updates", 0);
     changeCounter.put("Removals", 0);
   }
+
 }

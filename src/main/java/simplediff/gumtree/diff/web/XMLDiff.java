@@ -11,7 +11,15 @@ import simplediff.gumtree.core.actions.EditScript;
 import simplediff.gumtree.core.actions.EditScriptGenerator;
 import simplediff.gumtree.core.actions.XMLChawatheScriptGenerator;
 import simplediff.gumtree.core.actions.model.Change;
+import simplediff.gumtree.core.actions.model.FieldDeclarationChange;
+import simplediff.gumtree.core.actions.model.ImportChange;
+import simplediff.gumtree.core.actions.model.JavadocChange;
+import simplediff.gumtree.core.actions.model.MethodChange;
+import simplediff.gumtree.core.actions.model.MethodReorderChange;
+import simplediff.gumtree.core.actions.model.ModifierChange;
+import simplediff.gumtree.core.actions.model.PackageChange;
 import simplediff.gumtree.core.actions.model.SourceChange;
+import simplediff.gumtree.core.actions.model.TypeDeclarationChange;
 import simplediff.gumtree.core.matchers.MappingStore;
 import simplediff.gumtree.core.matchers.Matcher;
 import simplediff.gumtree.core.tree.TreeContext;
@@ -44,6 +52,16 @@ public class XMLDiff {
     output.append("\t</targetBranch>\n");
 
     for (int i = 0; i < numFiles; i++) {
+
+      FieldDeclarationChange.reset();
+      ImportChange.reset();
+      JavadocChange.reset();
+      MethodChange.reset();
+      MethodReorderChange.reset();
+      ModifierChange.reset();
+      PackageChange.reset();
+      TypeDeclarationChange.reset();
+
       final Pair<File, File> pair = modifiedFiles.get(i);
       final TreeContext src = contexts.get(i).first;
       final TreeContext dst = contexts.get(i).second;
@@ -63,6 +81,41 @@ public class XMLDiff {
 
       output.append("\t<file>\n");
       output.append("\t\t<name>").append(srcFile).append("</name>\n");
+      
+      
+      output.append("\t\t<change-pkg-additions>").append(PackageChange.changeCounter.get("Additions")).append("</change-pkg-additions>\n");
+      output.append("\t\t<change-pkg-updates>").append(PackageChange.changeCounter.get("Updates")).append("</change-pkg-updates>\n");
+      output.append("\t\t<change-pkg-removals>").append(PackageChange.changeCounter.get("Removals")).append("</change-pkg-removals>\n");
+
+      output.append("\t\t<change-import-additions>").append(ImportChange.changeCounter.get("Additions")).append("</change-import-additions>\n");
+      output.append("\t\t<change-import-updates>").append(ImportChange.changeCounter.get("Updates")).append("</change-import-updates>\n");
+      output.append("\t\t<change-import-removals>").append(ImportChange.changeCounter.get("Removals")).append("</change-import-removals>\n");
+
+      output.append("\t\t<change-method-additions>").append(MethodChange.changeCounter.get("Additions")).append("</change-method-additions>\n");
+      output.append("\t\t<change-method-updates>").append(MethodChange.changeCounter.get("Updates")).append("</change-method-updates>\n");
+      output.append("\t\t<change-method-removals>").append(MethodChange.changeCounter.get("Removals")).append("</change-method-removals>\n");
+
+      output.append("\t\t<change-field-declaration-additions>").append(FieldDeclarationChange.changeCounter.get("Additions")).append("</change-field-declaration-additions>\n");
+      output.append("\t\t<change-field-declaration-updates>").append(FieldDeclarationChange.changeCounter.get("Updates")).append("</change-field-declaration-updates>\n");
+      output.append("\t\t<change-field-declaration-removals>").append(FieldDeclarationChange.changeCounter.get("Removals")).append("</change-field-declaration-removals>\n");
+
+      output.append("\t\t<change-method-reorder-additions>").append(MethodReorderChange.changeCounter.get("Additions")).append("</change-method-reorder-additions>\n");
+      output.append("\t\t<change-method-reorder-updates>").append(MethodReorderChange.changeCounter.get("Updates")).append("</change-method-reorder-updates>\n");
+      output.append("\t\t<change-method-reorder-removals>").append(MethodReorderChange.changeCounter.get("Removals")).append("</change-method-reorder-removals>\n");
+
+      output.append("\t\t<change-type-declaration-additions>").append(TypeDeclarationChange.changeCounter.get("Additions")).append("</change-type-declaration-additions>\n");
+      output.append("\t\t<change-type-declaration-updates>").append(TypeDeclarationChange.changeCounter.get("Updates")).append("</change-type-declaration-updates>\n");
+      output.append("\t\t<change-type-declaration-removals>").append(TypeDeclarationChange.changeCounter.get("Removals")).append("</change-type-declaration-removals>\n");
+
+      output.append("\t\t<change-modifier-additions>").append(ModifierChange.changeCounter.get("Additions")).append("</change-modifier-additions>\n");
+      output.append("\t\t<change-modifier-updates>").append(ModifierChange.changeCounter.get("Updates")).append("</change-modifier-updates>\n");
+      output.append("\t\t<change-modifier-removals>").append(ModifierChange.changeCounter.get("Removals")).append("</change-modifier-removals>\n");
+
+      output.append("\t\t<change-javadoc-additions>").append(JavadocChange.changeCounter.get("Additions")).append("</change-javadoc-additions>\n");
+      output.append("\t\t<change-javadoc-updates>").append(JavadocChange.changeCounter.get("Updates")).append("</change-javadoc-updates>\n");
+      output.append("\t\t<change-javadoc-removals>").append(JavadocChange.changeCounter.get("Removals")).append("</change-javadoc-removals>\n");
+      
+      
       output.append(publishFile(srcFile, dstFile, changeList, rawHtmlDiff));
       output.append("\t</file>\n");
     }
