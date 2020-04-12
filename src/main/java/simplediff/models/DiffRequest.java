@@ -1,25 +1,19 @@
 package simplediff.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DiffRequest {
-  private final String gitRepo;
-  private final String srcBranch;
-  private final String targetBranch;
+    public final int pullRequestId;
+    public final String repoSlug;
+    public final String targetBranch;
 
-  public DiffRequest(String gitRepo, String srcBranch, String targetBranch) {
-    this.gitRepo = gitRepo;
-    this.srcBranch = srcBranch;
-    this.targetBranch = targetBranch;
-  }
-
-  public String getGitRepo() {
-    return gitRepo;
-  }
-
-  public String getTargetBranch() {
-    return targetBranch;
-  }
-
-  public String getSrcBranch() {
-    return srcBranch;
-  }
+    @JsonCreator
+    public DiffRequest(@JsonProperty(required = true) int pullRequestId,
+                       @JsonProperty(required = true) String repoSlug,
+                       @JsonProperty(required = true) String targetBranch) {
+        this.pullRequestId = pullRequestId;
+        this.repoSlug = repoSlug;
+        this.targetBranch = targetBranch;
+    }
 }
