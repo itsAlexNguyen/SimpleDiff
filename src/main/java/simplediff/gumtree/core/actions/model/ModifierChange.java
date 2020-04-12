@@ -48,11 +48,17 @@ public class ModifierChange extends SourceChange {
       changeCounter.put("Updates", changeCounter.get("Updates") + 1);
     }
     final String placeHolder = "Modifiers of %s %s changed to %s";
+    String dec = "";
+    if(enclosingDeclaration.length() > 1){
+        dec = enclosingDeclaration.substring(0, 1).toUpperCase()
+                + enclosingDeclaration.substring(1).replaceAll("(?i)" + Pattern.quote("declaration"), "");
+    } else{
+      dec = enclosingDeclaration;
+    }
     return new ModifierChange(
         String.format(
             placeHolder,
-            enclosingDeclaration.substring(0, 1).toUpperCase()
-                + enclosingDeclaration.substring(1).replaceAll("(?i)" + Pattern.quote("declaration"), ""),
+            dec,
             enclosingDeclarationName,
             String.join(",", modifierList)),
         srcStart,
