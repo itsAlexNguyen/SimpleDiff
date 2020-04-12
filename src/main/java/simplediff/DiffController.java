@@ -1,6 +1,7 @@
 package simplediff;
 
 import java.io.IOException;
+import org.apache.commons.io.IOUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,7 +81,6 @@ public class DiffController {
             "; git checkout ",
             targetBranch,
             " -- %%;'");
-
     for (String command : commandList) {
       executeBashCommand(command);
     }
@@ -95,9 +95,14 @@ public class DiffController {
     processBuilder.command(BASH_PATH, "-c", command);
     try {
       final Process process = processBuilder.start();
+      String stderr = IOUtils.toString(process.getErrorStream(), "UTF-8");
       int exitVal = process.waitFor();
+      if (exitVal != 0) {
+        throw new RuntimeException(String.format("\"%s\" exited with \"%d\" \"%s\"", command, exitVal, stderr));
+      }
     } catch (IOException | InterruptedException e) {
       e.printStackTrace();
+      throw new RuntimeException("Failed to execute: " + command);
     }
   }
 }
